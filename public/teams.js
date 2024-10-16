@@ -14,7 +14,7 @@ document.getElementById('league-select').addEventListener('change', function() {
 
 // Function to fetch teams based on the selected league
 function fetchTeams(league) {
-    fetch(`/soccer-data-teams?league=${league}`)
+    fetch(`https://soccervortex-github-io.onrender.com/soccer-data-teams?league=${league}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');

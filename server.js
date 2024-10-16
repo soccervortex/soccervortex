@@ -304,6 +304,14 @@ app.get('/live-matches', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'live.html')); // Serve the live-matches.html file
 });
 
+app.get('/standings', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'standings.html')); // Serve the live-matches.html file
+});
+
+app.get('/teams', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'teams.html')); // Serve the live-matches.html file
+});
+
 app.get('/played-matches', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'played.html')); // Serve the live-matches.html file
 });

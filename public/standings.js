@@ -3,7 +3,7 @@
 // Function to fetch standings data from the server
 async function fetchStandings(league) {
     try {
-        const response = await fetch(`/soccer-data-standings?league=${league}`);
+        const response = await fetch(`https://soccervortex-github-io.onrender.com/soccer-data-standings?league=${league}`);
         if (!response.ok) {
             throw new Error('Failed to fetch standings');
         }

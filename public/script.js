@@ -27,7 +27,7 @@ function updateLeagueLogo(select) {
 
 async function fetchSoccerData(league) {
   try {
-    const response = await fetch(`/soccer-data-matches?league=${league}`);
+    const response = await fetch(`https://soccervortex-github-io.onrender.com/soccer-data-matches?league=${league}`);
     const data = await response.json();
     
     // Log the entire matches array to inspect the structure

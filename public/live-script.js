@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchLiveMatches(league) {
     try {
-        const response = await fetch(`/soccer-data-live?league=${league}`);
+        const response = await fetch(`https://soccervortex-github-io.onrender.com/soccer-data-live?league=${league}`);
         const data = await response.json();
         console.log(data.matches);
         displayLiveMatches(data.matches);
