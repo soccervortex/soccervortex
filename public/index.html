@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soccer Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+      <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">Soccer Data</a>
+            <ul class="navbar-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="live.html">Live Matches</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Soccer Matches</h1>
+        <div class="custom-select-wrapper">
+            <select id="league-select" onchange="updateLeagueLogo(this)">
+                <option value="PL" data-logo="images/leagues/premier-league.png">Premier League</option>
+                <option value="CL" data-logo="images/leagues/champions-league.png">Champions League</option>
+                <option value="BL1" data-logo="images/leagues/bundesliga.png">Bundesliga</option>
+                <option value="DED" data-logo="images/leagues/eredivisie.png">Eredivisie</option>
+                <option value="BSA" data-logo="images/leagues/campeonato-brasileiro.png">Campeonato Brasileiro</option>
+                <option value="PD" data-logo="images/leagues/la-liga.png">La Liga</option>
+                <option value="FL1" data-logo="images/leagues/ligue-1.png">Ligue 1</option>
+                <option value="ELC" data-logo="images/leagues/championship.png">Championship</option>
+                <option value="PPL" data-logo="images/leagues/primeira-liga.png">Primeira Liga</option>
+                <option value="EC" data-logo="images/leagues/european-championship.png">European Championship</option>
+                <option value="SA" data-logo="images/leagues/serie-a.png">Serie A</option>
+                <option value="CLI" data-logo="images/leagues/copa-libertadores.png">Copa Libertadores</option>
+                <option value="WC" data-logo="images/leagues/world-cup.png">World Cup</option>
+            </select>
+        </div>
+        <div id="soccer-data"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

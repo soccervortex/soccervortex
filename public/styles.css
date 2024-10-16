@@ -1,0 +1,188 @@
+/* styles.css */
+
+.custom-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-wrapper select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.league-logo {
+  width: 30px; /* Adjust width as needed */
+  height: auto;
+  margin-right: 10px;
+}
+
+.team-logo {
+  width: 25px; /* Adjust width as needed */
+  height: auto;
+  vertical-align: middle;
+}
+
+/* Other styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+}
+
+.match {
+  display: flex;
+  align-items: center; /* Centers logos and text vertically */
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.team-info {
+  display: flex;
+  align-items: center; /* Centers logos and team names vertically */
+}
+
+.match p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.team-name {
+  margin-right: 10px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+/* Optional: Additional styling for layout */
+.match-details {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* styles.css */
+.custom-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-wrapper select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.league-logo {
+  width: 30px; /* Adjust width as needed */
+  height: auto;
+  margin-right: 10px;
+}
+
+.team-logo {
+  width: 25px; /* Adjust width as needed */
+  height: auto;
+  margin-right: 10px;
+}
+
+.team-info {
+  display: flex;
+  align-items: center;
+}
+
+.vs {
+  margin: 0 15px; /* Add space around vs */
+}
+
+.score {
+  font-weight: bold;
+  margin: 0 10px; /* Add some space around scores */
+}
+
+/* Other styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+}
+
+.match {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.score {
+  font-weight: bold;
+  margin: 0 10px; /* Add some space around scores */
+}
+
+/* Add this to styles.css or create navbar-styles.css */
+.navbar {
+  background-color: #4caf50; /* Green background */
+  padding: 10px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar .container {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand {
+  font-size: 24px;
+  color: black;
+  text-decoration: none;
+}
+
+.navbar-menu {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-menu li {
+  margin-left: 20px;
+}
+
+.navbar-menu a {
+  color: black;
+  text-decoration: none;
+  padding: 8px 12px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-menu a:hover {
+  background-color: white;
+  color: #4caf50; /* Change text color on hover */
+  border-radius: 4px; /* Rounded corners */
+}
