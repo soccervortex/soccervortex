@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchLiveMatches(league) {
     try {
-        const response = await fetch(`https://soccervortex-github-io.onrender.com/soccer-data?league=${league}`);
+        const response = await fetch(`/soccer-data-live?league=${league}`);
         const data = await response.json();
         console.log(data.matches);
         displayLiveMatches(data.matches);
@@ -26,7 +26,7 @@ async function fetchLiveMatches(league) {
 }
 
 function displayLiveMatches(matches) {
-    const container = document.getElementById('live-soccer-data');
+    const container = document.getElementById('soccer-data-live');
     container.innerHTML = '';
 
     if (!matches || matches.length === 0) {
@@ -35,7 +35,7 @@ function displayLiveMatches(matches) {
     }
 
     // Filter live matches
-    const liveMatches = matches.filter(match => match.status === 'IN_PLAY');
+    const liveMatches = matches.filter(match => match.status === 'LIVE');
 
     if (liveMatches.length === 0) {
         container.innerHTML = '<p>No live matches found.</p>';

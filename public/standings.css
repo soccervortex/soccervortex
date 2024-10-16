@@ -1,0 +1,132 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styles */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.league-logo {
+    width: 30px; /* Adjust width as needed */
+    height: auto;
+    margin-right: 10px;
+}
+
+/* Standings Table Styles */
+#soccer-data-standings {
+    display: table;
+    width: 100%;
+    border-collapse: collapse; /* Collapses borders for better alignment */
+}
+
+.team {
+    display: table-row; /* Makes team elements behave like table rows */
+    height: 50px; /* Sets a fixed height for rows */
+}
+
+.team > div {
+    display: table-cell; /* Makes child divs behave like table cells */
+    padding: 10px;
+    text-align: left; /* Aligns text to the left */
+    border-bottom: 1px solid #ddd; /* Adds a border for separation */
+}
+
+.team img {
+    width: 25px; /* Adjust width as needed */
+    height: auto;
+    vertical-align: middle; /* Aligns logos vertically */
+}
+
+/* Specific Cell Styles */
+.team-position {
+    width: 5%; /* Adjust the width for the position column */
+}
+
+.team-logo {
+    margin-right: 10px; /* Space between logo and name */
+}
+
+.team-name {
+    font-weight: bold; /* Makes team names bold */
+}
+
+.team-points {
+    width: 10%; /* Adjust width for points */
+}
+
+/* Match Styles */
+.match {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #4caf50; /* Green background */
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar .container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    color: black;
+    text-decoration: none;
+}
+
+.navbar-menu {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-menu li {
+    margin-left: 20px;
+}
+
+.navbar-menu a {
+    color: black;
+    text-decoration: none;
+    padding: 8px 12px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-menu a:hover {
+    background-color: white;
+    color: #4caf50; /* Change text color on hover */
+    border-radius: 4px; /* Rounded corners */
+}
+
+/* Select Dropdown Styles */
+.custom-select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select-wrapper select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+}

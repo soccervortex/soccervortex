@@ -1,17 +1,15 @@
-<!-- live-matches.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="live-styles.css"> <!-- New CSS for live matches -->
-    <title>Live Matches</title>
+    <title>Soccer Dashboard</title>
+    <link rel="stylesheet" href="standings.css">
 </head>
 <body>
-    <nav class="navbar">
+      <nav class="navbar">
         <div class="container">
-            <a href="live.html" class="navbar-brand">Soccer Vortex</a>
+            <a href="standings.html" class="navbar-brand">Soccer Vortex</a>
             <ul class="navbar-menu">
                 <li><a href="standings.html">Standings</a></li>
                 <li><a href="live.html">Live Matches</a></li>
@@ -21,9 +19,9 @@
         </div>
     </nav>
     <div class="container">
-        <h1>Live Matches</h1>
+        <h1>Soccer Standings</h1>
         <div class="custom-select-wrapper">
-            <select id="league-select">
+            <select id="league-select" onchange="updateLeagueLogo(this)">
                 <option value="PL" data-logo="images/leagues/premier-league.png">Premier League</option>
                 <option value="CL" data-logo="images/leagues/champions-league.png">Champions League</option>
                 <option value="BL1" data-logo="images/leagues/bundesliga.png">Bundesliga</option>
@@ -39,8 +37,16 @@
                 <option value="WC" data-logo="images/leagues/world-cup.png">World Cup</option>
             </select>
         </div>
-        <div id="soccer-data-live"></div>
+        <div id="soccer-data-standings">
+            <div class="team">
+                <span class="team-position">1.</span>
+                <img src="team-logo-url" alt="Team Logo" class="team-logo">
+                <span class="team-name">Team Name</span>
+                <span class="team-points">Points: 18</span>
+            </div>
+            <!-- More team elements -->
+        </div>
     </div>
-    <script src="live-script.js"></script> <!-- New JS for live matches -->
+    <script src="standings.js"></script>
 </body>
 </html>

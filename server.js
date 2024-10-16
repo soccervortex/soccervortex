@@ -47,6 +47,38 @@ const standingsUrls = {
     WC: 'https://api.football-data.org/v4/competitions/WC/standings',
 };
 
+const liveUrls = {
+    PL: 'https://api.football-data.org/v4/competitions/PL/matches?status=LIVE',
+    CL: 'https://api.football-data.org/v4/competitions/CL/matches?status=LIVE',
+    BL1: 'https://api.football-data.org/v4/competitions/BL1/matches?status=LIVE',
+    DED: 'https://api.football-data.org/v4/competitions/DED/matches?status=LIVE',
+    BSA: 'https://api.football-data.org/v4/competitions/BSA/matches?status=LIVE',
+    PD: 'https://api.football-data.org/v4/competitions/PD/matches?status=LIVE',
+    FL1: 'https://api.football-data.org/v4/competitions/FL1/matches?status=LIVE',
+    ELC: 'https://api.football-data.org/v4/competitions/ELC/matches?status=LIVE',
+    PPL: 'https://api.football-data.org/v4/competitions/PPL/matches?status=LIVE',
+    EC: 'https://api.football-data.org/v4/competitions/EC/matches?status=LIVE',
+    SA: 'https://api.football-data.org/v4/competitions/SA/matches?status=LIVE',
+    CLI: 'https://api.football-data.org/v4/competitions/CLI/matches?status=LIVE',
+    WC: 'https://api.football-data.org/v4/competitions/WC/matches?status=LIVE',
+};
+
+const teamsUrls = {
+    PL: 'https://api.football-data.org/v4/competitions/PL/teams',
+    CL: 'https://api.football-data.org/v4/competitions/CL/teams',
+    BL1: 'https://api.football-data.org/v4/competitions/BL1/teams',
+    DED: 'https://api.football-data.org/v4/competitions/DED/teams',
+    BSA: 'https://api.football-data.org/v4/competitions/BSA/teams',
+    PD: 'https://api.football-data.org/v4/competitions/PD/teams',
+    FL1: 'https://api.football-data.org/v4/competitions/FL1/teams',
+    ELC: 'https://api.football-data.org/v4/competitions/ELC/teams',
+    PPL: 'https://api.football-data.org/v4/competitions/PPL/teams',
+    EC: 'https://api.football-data.org/v4/competitions/EC/teams',
+    SA: 'https://api.football-data.org/v4/competitions/SA/teams',
+    CLI: 'https://api.football-data.org/v4/competitions/CLI/teams',
+    WC: 'https://api.football-data.org/v4/competitions/WC/teams',
+};
+
 // League logos mapping
 const leagueLogos = {
     PL: 'images/leagues/premier-league.png',
@@ -152,9 +184,96 @@ const clubsLogos = {
     // Add additional mappings for club IDs and logo paths
 };
 
-app.get('/soccer-data', async (req, res) => {
+app.get('/soccer-data-matches', async (req, res) => {
     const league = req.query.league;
     const apiUrl = matchesUrls[league];
+
+    if (!apiUrl) {
+        return res.status(400).json({ error: 'Invalid league code' });
+    }
+
+    try {
+        const response = await axios.get(apiUrl, {
+            headers: { 'X-Auth-Token': apiKey }
+        });
+
+        const matchesWithLogos = response.data.matches.map(match => {
+            return {
+                ...match,
+                leagueLogo: leagueLogos[league],
+                homeTeamLogo: clubsLogos[match.homeTeam.id],
+                awayTeamLogo: clubsLogos[match.awayTeam.id],
+            };
+        });
+
+        res.json({ matches: matchesWithLogos });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get('/soccer-data-standings', async (req, res) => {
+    const league = req.query.league;
+    const apiUrl = standingsUrls[league];
+
+    if (!apiUrl) {
+        return res.status(400).json({ error: 'Invalid league code' });
+    }
+
+    try {
+        const response = await axios.get(apiUrl, {
+            headers: { 'X-Auth-Token': apiKey }
+        });
+
+        // Ensure that the response has the expected structure
+        const standingsData = response.data.standings[0]?.table || []; // Use optional chaining
+
+        // Add club logos to the standings response
+        const standingsWithLogos = standingsData.map(team => {
+            return {
+                ...team,
+                logo: clubsLogos[team.team.id] || 'images/default-club-logo.png' // Add logo property
+            };
+        });
+
+        res.json({ standings: standingsWithLogos }); // Return the modified standings
+    } catch (error) {
+        console.error('Error fetching standings:', error);
+        res.status(500).json({ error: 'Failed to fetch standings' });
+    }
+});
+
+// Add this endpoint to your server.js file
+app.get('/soccer-data-teams', async (req, res) => {
+    const league = req.query.league;
+    const apiUrl = teamsUrls[league];
+
+    if (!apiUrl) {
+        return res.status(400).json({ error: 'Invalid league code' });
+    }
+
+    try {
+        const response = await axios.get(apiUrl, {
+            headers: { 'X-Auth-Token': apiKey }
+        });
+
+        const teamsWithLogos = response.data.teams.map(team => {
+            return {
+                ...team,
+                logo: clubsLogos[team.id] || 'images/default-club-logo.png', // Add logo property
+            };
+        });
+
+        res.json({ teams: teamsWithLogos }); // Return the modified teams
+    } catch (error) {
+        console.error('Error fetching teams:', error);
+        res.status(500).json({ error: 'Failed to fetch teams' });
+    }
+});
+
+app.get('/soccer-data-live', async (req, res) => {
+    const league = req.query.league;
+    const apiUrl = liveUrls[league];
 
     if (!apiUrl) {
         return res.status(400).json({ error: 'Invalid league code' });
@@ -185,8 +304,16 @@ app.get('/live-matches', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'live.html')); // Serve the live-matches.html file
 });
 
+app.get('/played-matches', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'played.html')); // Serve the live-matches.html file
+});
+
+app.get('/team-url', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'standings.html')); // Serve the live-matches.html file
+});
+
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'live.html'));
 });
 
 app.listen(PORT, () => {
