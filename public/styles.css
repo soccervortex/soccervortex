@@ -132,6 +132,18 @@ h1 {
   text-align: center;
 }
 
+p {
+  text-align: center;
+}
+
+ul li {
+  text-align: center;
+}
+
+li {
+  text-align: center;
+}
+
 .match {
   border-bottom: 1px solid #ddd;
   padding: 10px 0;
@@ -185,4 +197,15 @@ h1 {
   background-color: white;
   color: #4caf50; /* Change text color on hover */
   border-radius: 4px; /* Rounded corners */
+}
+
+#viewer-count {
+  display: flex;               /* Use flexbox for alignment */
+  justify-content: center;     /* Center horizontally */
+  align-items: center;         /* Center vertically */          /* Take full viewport height */
+  text-align: center;          /* Center text within the section */
+}
+
+.section {
+  margin: 20px;               /* Optional margin for spacing */
 }
