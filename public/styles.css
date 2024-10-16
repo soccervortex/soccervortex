@@ -199,8 +199,7 @@ li {
   border-radius: 4px; /* Rounded corners */
 }
 
-#viewer-count {
-  display: flex;               /* Use flexbox for alignment */
+#viewer-count {           /* Use flexbox for alignment */
   justify-content: center;     /* Center horizontally */
   align-items: center;         /* Center vertically */          /* Take full viewport height */
   text-align: center;          /* Center text within the section */
