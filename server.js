@@ -15,7 +15,7 @@ app.use(express.static('public'));
 // Endpoint to fetch soccer data
 const apiKey = '1d171366cdf64118b495dba4cf37603f'; // Replace with your Football Data API key
 
-const leagueUrls = {
+const matchesUrls = {
     PL: 'https://api.football-data.org/v4/competitions/PL/matches',
     CL: 'https://api.football-data.org/v4/competitions/CL/matches',
     BL1: 'https://api.football-data.org/v4/competitions/BL1/matches',
@@ -29,6 +29,22 @@ const leagueUrls = {
     SA: 'https://api.football-data.org/v4/competitions/SA/matches',
     CLI: 'https://api.football-data.org/v4/competitions/CLI/matches',
     WC: 'https://api.football-data.org/v4/competitions/WC/matches',
+};
+
+const standingsUrls = {
+    PL: 'https://api.football-data.org/v4/competitions/PL/standings',
+    CL: 'https://api.football-data.org/v4/competitions/CL/standings',
+    BL1: 'https://api.football-data.org/v4/competitions/BL1/standings',
+    DED: 'https://api.football-data.org/v4/competitions/DED/standings',
+    BSA: 'https://api.football-data.org/v4/competitions/BSA/standings',
+    PD: 'https://api.football-data.org/v4/competitions/PD/standings',
+    FL1: 'https://api.football-data.org/v4/competitions/FL1/standings',
+    ELC: 'https://api.football-data.org/v4/competitions/ELC/standings',
+    PPL: 'https://api.football-data.org/v4/competitions/PPL/standings',
+    EC: 'https://api.football-data.org/v4/competitions/EC/standings',
+    SA: 'https://api.football-data.org/v4/competitions/SA/standings',
+    CLI: 'https://api.football-data.org/v4/competitions/CLI/standings',
+    WC: 'https://api.football-data.org/v4/competitions/WC/standings',
 };
 
 // League logos mapping
