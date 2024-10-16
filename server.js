@@ -154,7 +154,7 @@ const clubsLogos = {
 
 app.get('/soccer-data', async (req, res) => {
     const league = req.query.league;
-    const apiUrl = leagueUrls[league];
+    const apiUrl = matchesUrls[league];
 
     if (!apiUrl) {
         return res.status(400).json({ error: 'Invalid league code' });
