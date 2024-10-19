@@ -1,3 +1,5 @@
+// live-script.js
+
 document.addEventListener('DOMContentLoaded', () => {
     const leagueSelect = document.getElementById('league-select');
     fetchLiveMatches(leagueSelect.value); // Fetch data for initially selected league
