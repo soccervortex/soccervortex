@@ -48,7 +48,7 @@ const standingsUrls = {
 };
 
 const liveUrls = {
-    PL: 'https://api.football-data.org/v4/competitions/PL/matches?status=IN_PLAY',
+    PL: 'https://api.football-data.org/v4/competitions/PL/matches',
     CL: 'https://api.football-data.org/v4/competitions/CL/matches?status=LIVE',
     BL1: 'https://api.football-data.org/v4/competitions/BL1/matches?status=LIVE',
     DED: 'https://api.football-data.org/v4/competitions/DED/matches?status=LIVE',
