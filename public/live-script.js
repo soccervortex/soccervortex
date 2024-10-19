@@ -68,7 +68,6 @@ function displayLiveMatches(matches) {
                     <img src="${match.awayTeamLogo}" alt="${match.awayTeam.name} logo" class="team-logo">
                 </p>
                 <p>Status: ${statusMapping[matchStatus] || matchStatus}</p>
-             // <p>Time Played: ${match.timePlayed}</p>
                 <p>Referee: ${match.referee}</p>
                 <p>Date: ${new Date(match.utcDate).toLocaleString()}</p>
             </div>
