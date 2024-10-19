@@ -25,6 +25,17 @@ async function fetchLiveMatches(league) {
     }
 }
 
+const statusMapping = {
+  SCHEDULED: 'Scheduled',
+  LIVE: 'Live',
+  IN_PLAY: 'Playing',
+  PAUSED: 'Paused',
+  FINISHED: 'Finished',
+  POSTPONED: 'Postponed',
+  SUSPENDED: 'Suspended',
+  CANCELLED: 'Cancelled'
+};
+
 function displayLiveMatches(matches) {
     const container = document.getElementById('soccer-data-live');
     container.innerHTML = '';
@@ -45,6 +56,7 @@ function displayLiveMatches(matches) {
     liveMatches.forEach(match => {
         const homeScore = match.score.fullTime.home !== null ? match.score.fullTime.home : '-';
         const awayScore = match.score.fullTime.away !== null ? match.score.fullTime.away : '-';
+        const matchStatus = match.status;
 
         const matchElement = document.createElement('div');
         matchElement.className = 'match live';
@@ -55,6 +67,7 @@ function displayLiveMatches(matches) {
                     ${match.homeTeam.name} ${homeScore} vs ${awayScore} ${match.awayTeam.name}
                     <img src="${match.awayTeamLogo}" alt="${match.awayTeam.name} logo" class="team-logo">
                 </p>
+                <p>Status: ${statusMapping[matchStatus] || matchStatus}</p>
                 <p>Date: ${new Date(match.utcDate).toLocaleString()}</p>
             </div>
         `;
