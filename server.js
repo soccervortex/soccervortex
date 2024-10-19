@@ -293,7 +293,7 @@ app.get('/soccer-data-live', async (req, res) => {
                 homeTeamLogo: clubsLogos[match.homeTeam.id],
                 awayTeamLogo: clubsLogos[match.awayTeam.id],
                 referee: match.referees.length > 0 ? match.referees[0].name : 'N/A', // Get referee if available
-                timePlayed: match.score.duration ? `${match.score.duration} minutes` : 'N/A', // Get time played
+                timePlayed: match.minute ? `${match.minute} Min Played!` : 'N/A', // Get time played
             };
         });
 
