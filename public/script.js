@@ -62,7 +62,7 @@ async function displayData(matches) {
   }
 
   // Sort matches by UTC date
-  matches.sort((a, b) => new Date(a.utcDate) - new Date(b.utcDate));
+  matches.sort((a, b) => new Date(b.utcDate) - new Date(a.utcDate));
 
   const processMatch = async (match) => {
     const homeTeamName = match.homeTeam.name;
