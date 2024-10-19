@@ -64,7 +64,7 @@ function displayLiveMatches(matches) {
             <div class="match-info">
                 <p>
                     <img src="${match.homeTeamLogo}" alt="${match.homeTeam.name} logo" class="team-logo">
-                    ${match.homeTeam.name} ${homeScore} vs ${awayScore} ${match.awayTeam.name}
+                    ${match.homeTeam.name} | ${homeScore} vs ${awayScore} | ${match.awayTeam.name}
                     <img src="${match.awayTeamLogo}" alt="${match.awayTeam.name} logo" class="team-logo">
                 </p>
                 <p>Status: ${statusMapping[matchStatus] || matchStatus}</p>
