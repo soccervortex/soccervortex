@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set up regular updates every 30 seconds
     setInterval(() => {
         fetchLiveMatches(leagueSelect.value);
-    }, 30000);
+    }, 10000);
 });
 
 async function fetchLiveMatches(league) {
