@@ -35,7 +35,7 @@ function displayLiveMatches(matches) {
     }
 
     // Filter live matches
-    const liveMatches = matches.filter(match => match.status === 'LIVE');
+    const liveMatches = matches.filter(match => match.status === 'IN_PLAY');
 
     if (liveMatches.length === 0) {
         container.innerHTML = '<p>No live matches found.</p>';
