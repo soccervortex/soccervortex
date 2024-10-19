@@ -49,18 +49,18 @@ const standingsUrls = {
 
 const liveUrls = {
     PL: 'https://api.football-data.org/v4/competitions/PL/matches',
-    CL: 'https://api.football-data.org/v4/competitions/CL/matches?status=LIVE',
-    BL1: 'https://api.football-data.org/v4/competitions/BL1/matches?status=LIVE',
-    DED: 'https://api.football-data.org/v4/competitions/DED/matches?status=LIVE',
-    BSA: 'https://api.football-data.org/v4/competitions/BSA/matches?status=LIVE',
-    PD: 'https://api.football-data.org/v4/competitions/PD/matches?status=LIVE',
-    FL1: 'https://api.football-data.org/v4/competitions/FL1/matches?status=LIVE',
-    ELC: 'https://api.football-data.org/v4/competitions/ELC/matches?status=LIVE',
-    PPL: 'https://api.football-data.org/v4/competitions/PPL/matches?status=LIVE',
-    EC: 'https://api.football-data.org/v4/competitions/EC/matches?status=LIVE',
-    SA: 'https://api.football-data.org/v4/competitions/SA/matches?status=LIVE',
-    CLI: 'https://api.football-data.org/v4/competitions/CLI/matches?status=LIVE',
-    WC: 'https://api.football-data.org/v4/competitions/WC/matches?status=LIVE',
+    CL: 'https://api.football-data.org/v4/competitions/CL/matches',
+    BL1: 'https://api.football-data.org/v4/competitions/BL1/matches',
+    DED: 'https://api.football-data.org/v4/competitions/DED/matches',
+    BSA: 'https://api.football-data.org/v4/competitions/BSA/matches',
+    PD: 'https://api.football-data.org/v4/competitions/PD/matches',
+    FL1: 'https://api.football-data.org/v4/competitions/FL1/matches',
+    ELC: 'https://api.football-data.org/v4/competitions/ELC/matches',
+    PPL: 'https://api.football-data.org/v4/competitions/PPL/matches',
+    EC: 'https://api.football-data.org/v4/competitions/EC/matches',
+    SA: 'https://api.football-data.org/v4/competitions/SA/matches',
+    CLI: 'https://api.football-data.org/v4/competitions/CLI/matches',
+    WC: 'https://api.football-data.org/v4/competitions/WC/matches',
 };
 
 const teamsUrls = {
@@ -271,6 +271,7 @@ app.get('/soccer-data-teams', async (req, res) => {
     }
 });
 
+// Endpoint to fetch live matches
 app.get('/soccer-data-live', async (req, res) => {
     const league = req.query.league;
     const apiUrl = liveUrls[league];
@@ -284,16 +285,19 @@ app.get('/soccer-data-live', async (req, res) => {
             headers: { 'X-Auth-Token': apiKey }
         });
 
-        const matchesWithLogos = response.data.matches.map(match => {
+        // Map and add necessary details like referee and timePlayed
+        const matchesWithLogosAndDetails = response.data.matches.map(match => {
             return {
                 ...match,
                 leagueLogo: leagueLogos[league],
                 homeTeamLogo: clubsLogos[match.homeTeam.id],
                 awayTeamLogo: clubsLogos[match.awayTeam.id],
+                referee: match.referees.length > 0 ? match.referees[0].name : 'N/A', // Get referee if available
+                timePlayed: match.score.duration ? `${match.score.duration} minutes` : 'N/A', // Get time played
             };
         });
 
-        res.json({ matches: matchesWithLogos });
+        res.json({ matches: matchesWithLogosAndDetails });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
