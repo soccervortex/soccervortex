@@ -243,6 +243,8 @@ app.get('/soccer-data-standings', async (req, res) => {
     }
 
     try {
+        const apiKey = getNextApiKey();
+        
         const response = await axios.get(apiUrl, {
             headers: { 'X-Auth-Token': apiKey }
         });
@@ -275,6 +277,8 @@ app.get('/soccer-data-teams', async (req, res) => {
     }
 
     try {
+        const apiKey = getNextApiKey();
+        
         const response = await axios.get(apiUrl, {
             headers: { 'X-Auth-Token': apiKey }
         });
@@ -303,6 +307,8 @@ app.get('/soccer-data-live', async (req, res) => {
     }
 
     try {
+        const apiKey = getNextApiKey();
+        
         const response = await axios.get(apiUrl, {
             headers: { 'X-Auth-Token': apiKey }
         });
