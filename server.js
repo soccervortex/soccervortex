@@ -275,9 +275,8 @@ app.get('/soccer-data-teams', async (req, res) => {
 app.get('/soccer-data-live', async (req, res) => {
     const league = req.query.league;
     const apiUrl = liveUrls[league];
-    const apiUrl2 = liveUrls2[league];
 
-    if (!apiUrl && !apiUrl2) {
+    if (!apiUrl) {
         return res.status(400).json({ error: 'Invalid league code' });
     }
 
