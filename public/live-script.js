@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(() => {
         fetchLiveMatches(leagueSelect.value);
     }, 99999999);
+
 });
 
 async function fetchLiveMatches(league) {
