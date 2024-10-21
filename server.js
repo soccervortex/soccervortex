@@ -12,8 +12,27 @@ app.use(cors());
 // Serve static files from the "public" directory
 app.use(express.static('public'));
 
-// Endpoint to fetch soccer data
-const apiKey = '1d171366cdf64118b495dba4cf37603f'; // Replace with your Football Data API key
+const apiKeys = [
+    '1d171366cdf64118b495dba4cf37603f', // Key 1
+    '620d6010eacd446298471d289a362f9f', // Replace with actual API key
+    '38e25927fb9c4b7c8f19dc124e21b3e2', // Replace with actual API key
+    'eb658a2df4cc47cfb0b54f118f8961cc', // Replace with actual API key
+    '64b243f8bc7f469cacb987d5bbb2333e', // Replace with actual API key
+    'd278ac50d0f2454dacebd6e4668d252e', // Replace with actual API key
+    'b060899c58594b588e39b55e6bc0f381', // Replace with actual API key
+    '8d93e7ae96994178b810cf320b8b94a0', // Replace with actual API key
+    '6d5ca969981046999ac2289bda7480e4', // Replace with actual API key
+    'af4fb0ab26b643c8b69801a7c81f5062' // Replace with actual API key
+];
+
+let currentApiKeyIndex = 0;
+
+// Function to get the next API key in a round-robin manner
+function getNextApiKey() {
+    const apiKey = apiKeys[currentApiKeyIndex];
+    currentApiKeyIndex = (currentApiKeyIndex + 1) % apiKeys.length;
+    return apiKey;
+}
 
 const matchesUrls = {
     PL: 'https://api.football-data.org/v4/competitions/PL/matches',
@@ -193,6 +212,9 @@ app.get('/soccer-data-matches', async (req, res) => {
     }
 
     try {
+        // Get the next API key and log it
+        const apiKey = getNextApiKey();
+        
         const response = await axios.get(apiUrl, {
             headers: { 'X-Auth-Token': apiKey }
         });
