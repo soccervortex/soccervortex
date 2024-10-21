@@ -62,7 +62,7 @@ async function displayData(matches) {
   }
 
   // Sort matches by UTC date
-  matches.sort((a, b) => new Date(a.utcDate) - new Date(b.utcDate));
+  matches.sort((a, b) => new Date(b.utcDate) - new Date(a.utcDate));
 
   const processMatch = async (match) => {
     const homeTeamName = match.homeTeam.name;
@@ -79,10 +79,10 @@ async function displayData(matches) {
       matchElement.innerHTML = `
           <div class="match-info">
               <p>
-                  <img src="${match.homeTeamLogo}" alt="${homeTeamName} logo" class="team-logo">
+                  <img src="${match.homeTeam.crest}" alt="${homeTeamName} logo" class="team-logo">
                   ${homeTeamName} vs 
                   ${awayTeamName}
-                  <img src="${match.awayTeamLogo}" alt="${awayTeamName} logo" class="team-logo">
+                  <img src="${match.awayTeam.crest}" alt="${awayTeamName} logo" class="team-logo">
               </p>
               <p>Final Score: ${homeScore} - ${awayScore}</p>
               <p>Date: ${new Date(match.utcDate).toLocaleString()} UTC</p>

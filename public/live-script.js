@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set up regular updates every 30 seconds
     setInterval(() => {
         fetchLiveMatches(leagueSelect.value);
-    }, 30000);
+    }, 99999999);
 });
 
 async function fetchLiveMatches(league) {
@@ -25,6 +25,17 @@ async function fetchLiveMatches(league) {
     }
 }
 
+const statusMapping = {
+  SCHEDULED: 'Scheduled',
+  LIVE: 'Live',
+  IN_PLAY: 'Playing',
+  PAUSED: 'HT',
+  FINISHED: 'Finished',
+  POSTPONED: 'Postponed',
+  SUSPENDED: 'Suspended',
+  CANCELLED: 'Cancelled'
+};
+
 function displayLiveMatches(matches) {
     const container = document.getElementById('soccer-data-live');
     container.innerHTML = '';
@@ -35,7 +46,7 @@ function displayLiveMatches(matches) {
     }
 
     // Filter live matches
-    const liveMatches = matches.filter(match => match.status === 'LIVE');
+    const liveMatches = matches.filter(match => match.status === 'IN_PLAY' || match.status === 'LIVE' || match.status === 'PAUSED');
 
     if (liveMatches.length === 0) {
         container.innerHTML = '<p>No live matches found.</p>';
@@ -45,16 +56,19 @@ function displayLiveMatches(matches) {
     liveMatches.forEach(match => {
         const homeScore = match.score.fullTime.home !== null ? match.score.fullTime.home : '-';
         const awayScore = match.score.fullTime.away !== null ? match.score.fullTime.away : '-';
+        const matchStatus = match.status;
 
         const matchElement = document.createElement('div');
         matchElement.className = 'match live';
         matchElement.innerHTML = `
             <div class="match-info">
                 <p>
-                    <img src="${match.homeTeamLogo}" alt="${match.homeTeam.name} logo" class="team-logo">
-                    ${match.homeTeam.name} ${homeScore} vs ${awayScore} ${match.awayTeam.name}
-                    <img src="${match.awayTeamLogo}" alt="${match.awayTeam.name} logo" class="team-logo">
+                    <img src="${match.homeTeam.crest}" alt="${match.homeTeam.name} logo" class="team-logo">
+                    ${match.homeTeam.name} | ${homeScore} - ${awayScore} | ${match.awayTeam.name}
+                    <img src="${match.awayTeam.crest}" alt="${match.awayTeam.name} logo" class="team-logo">
                 </p>
+                <p>Status: ${statusMapping[matchStatus] || matchStatus}</p>
+                <p>Referee: ${match.referee}</p>
                 <p>Date: ${new Date(match.utcDate).toLocaleString()}</p>
             </div>
         `;

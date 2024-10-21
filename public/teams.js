@@ -44,7 +44,7 @@ function displayTeams(teams) {
         const teamCard = document.createElement('div');
         teamCard.classList.add('team-card');
         teamCard.innerHTML = `
-            <img src="${team.logo || 'images/default-club-logo.png'}" alt="${team.name}">
+            <img src="${team.crest || 'images/default-club-logo.png'}" alt="${team.name}">
             <h3>${team.name}</h3>
         `;
         teamsContainer.appendChild(teamCard);
