@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set up regular updates every 30 seconds
     setInterval(() => {
         fetchLiveMatches(leagueSelect.value);
-    }, 10000);
+    }, 99999999);
 });
 
 async function fetchLiveMatches(league) {
@@ -29,7 +29,7 @@ const statusMapping = {
   SCHEDULED: 'Scheduled',
   LIVE: 'Live',
   IN_PLAY: 'Playing',
-  PAUSED: 'Paused',
+  PAUSED: 'HT',
   FINISHED: 'Finished',
   POSTPONED: 'Postponed',
   SUSPENDED: 'Suspended',
@@ -63,9 +63,9 @@ function displayLiveMatches(matches) {
         matchElement.innerHTML = `
             <div class="match-info">
                 <p>
-                    <img src="${match.homeTeamLogo}" alt="${match.homeTeam.name} logo" class="team-logo">
+                    <img src="${match.homeTeam.crest}" alt="${match.homeTeam.name} logo" class="team-logo">
                     ${match.homeTeam.name} | ${homeScore} - ${awayScore} | ${match.awayTeam.name}
-                    <img src="${match.awayTeamLogo}" alt="${match.awayTeam.name} logo" class="team-logo">
+                    <img src="${match.awayTeam.crest}" alt="${match.awayTeam.name} logo" class="team-logo">
                 </p>
                 <p>Status: ${statusMapping[matchStatus] || matchStatus}</p>
                 <p>Referee: ${match.referee}</p>

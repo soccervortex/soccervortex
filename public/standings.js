@@ -3,7 +3,7 @@
 // Function to fetch standings data from the server
 async function fetchStandings(league) {
     try {
-        const response = await fetch(`https://soccervortex-github-io.onrender.com/soccer-data-standings?league=${league}`);
+        const response = await fetch(`https://soccervortex-github-io.onrender.com/soccer-data-standings?league=${league}&season=2018`);
         if (!response.ok) {
             throw new Error('Failed to fetch standings');
         }
@@ -49,7 +49,7 @@ function updateLeagueLogo(select) {
         positionElement.textContent = `${team.position}. `;
 
         const logoImg = document.createElement('img');
-        logoImg.src = team.logo; // Corrected to use 'logo'
+        logoImg.src = team.team.crest; // Corrected to use 'logo'
         logoImg.alt = `${team.team.name} Logo`; // Ensure you are using the right reference for the team name
         logoImg.className = 'team-logo';
 
