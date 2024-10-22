@@ -13,7 +13,9 @@ const bodyParser = require('body-parser');  // For parsing form data
 // Enable CORS
 app.use(cors());
 
+// Use body-parser to parse POST request bodies (including JSON and form data)
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());  // Add this for JSON support
 
 // Serve static files from the "public" directory
 app.use(express.static('public'));
@@ -23,11 +25,15 @@ app.use(session({
     secret: 'wesleystephanieomaenmaendavy',  // Secure key
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }   // Use 'true' only if using HTTPS
+    cookie: { secure: false }   // Use 'false' for local development over HTTP
 }));
 
+// Middleware to prevent caching of protected pages
 app.use((req, res, next) => {
-    res.set('Cache-Control', 'no-store');  // Prevent browser caching
+    // Disable caching on all routes (especially for protected pages like /admin)
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
     next();
 });
 
@@ -73,7 +79,7 @@ app.get('/adminsecurity/logout', (req, res) => {
 
         // Clear cookies (optional, but recommended)
         res.clearCookie('connect.sid', { path: '/' });
-        
+
         // Redirect to the main page after logging out
         res.redirect('https://soccervortex-github-io.onrender.com');  // Redirect to your main page
     });
@@ -690,9 +696,6 @@ app.get('/404/404.css', (req, res) => {
 app.listen(PORT, () => {
     console.log('Server running on https://soccervortex-github-io.onrender.com/');
 });
-
-
-
 `;
 
 fs.writeFileSync('server.js', serverCode);
