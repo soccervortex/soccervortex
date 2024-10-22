@@ -1,0 +1,45 @@
+.status-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
+.status {
+    width: 150px;
+    margin-top: 10px;
+    background-color: #3BD671;
+    color: #282E3A;
+    font-weight: bold;
+    height: auto;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.status a {
+    text-decoration: none;
+    display: block;
+    background: linear-gradient(90deg, #282E3A, #282E3A, #282E3A);
+    background-size: 200% auto; /* For gradient animation */
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: gradient 3s linear infinite; /* Animate gradient */
+}
+
+.status a:hover {
+    text-shadow: 0 0 10px #59e3ec, 0 0 20px #40e4bb, 0 0 30px #3bcfda; /* Glow effect */
+}
+
+/* Keyframes for animated gradient */
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}

@@ -2,7 +2,6 @@ const fs = require('fs');
 const PORT = 5867;
 const serverCode = `
 
-
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
@@ -585,6 +584,10 @@ app.get('/home/styles.css', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'played', 'styles.css'));
 });
 
+app.get('/home/status.css', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'home', 'status.css'));
+});
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home', 'index.html'));
 });
@@ -600,7 +603,6 @@ app.get('/logo2.png', (req, res) => {
 app.listen(PORT, () => {
     console.log('Server running on https://soccervortex-github-io.onrender.com/');
 });
-
 
 `;
 
