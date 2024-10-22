@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soccer Dashboard</title>
-    <link rel="stylesheet" href="/standings/standings.css">
+    <title>Top Scorers - Soccer Dashboard</title>
+    <link rel="stylesheet" href="/scorers/scorers.css">
 </head>
 <body>
-      <nav class="navbar">
+    <nav class="navbar">
         <div class="container">
             <a href="https://soccervortex-github-io.onrender.com/teams/" class="navbar-brand"><img class="title" src="logo.png"></a>
             <ul class="navbar-menu">
@@ -21,8 +21,9 @@
             </ul>
         </div>
     </nav>
+
     <div class="container">
-        <h1>Soccer Vortex</h1>
+        <h1>Top Scorers</h1>
         <div class="custom-select-wrapper">
             <select id="league-select" onchange="updateLeagueLogo(this)">
                 <option value="CL" data-logo="https://crests.football-data.org/CL.png">Champions League</option>
@@ -34,19 +35,23 @@
                 <option value="DED" data-logo="https://crests.football-data.org/ED.png">Eredivisie</option>
                 <option value="BSA" data-logo="https://crests.football-data.org/bsa.png">Campeonato Brasileiro</option>
                 <option value="PPL" data-logo="https://crests.football-data.org/PPL.png">Primeira Liga</option>
-                <option value="ELC" data-logo="https://crests.football-data.org/ELC.png">Championship</option>                
+                <option value="ELC" data-logo="https://crests.football-data.org/ELC.png">Championship</option>
+                <option value="CLI" data-logo="https://crests.football-data.org/CLI.png">Copa Libertadores</option>
             </select>
         </div>
-        <div id="soccer-data-standings">
-            <div class="team">
-                <span class="team-position">1.</span>
+
+        <div id="soccer-data-scorers">
+            <div class="scorer">
+                <span class="scorer-position">1.</span>
                 <img src="team-logo-url" alt="Team Logo" class="team-logo">
+                <span class="scorer-name">Player Name</span>
                 <span class="team-name">Team Name</span>
-                <span class="team-points">Points: 18</span>
+                <span class="scorer-goals">Goals: 18</span>
             </div>
-            <!-- More team elements -->
+            <!-- More scorer elements will be dynamically added here -->
         </div>
     </div>
-    <script src="/standings/standings.js"></script>
+
+    <script src="/scorers/scorers.js"></script>
 </body>
 </html>

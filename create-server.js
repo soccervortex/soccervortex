@@ -1,7 +1,6 @@
 const fs = require('fs');
 const PORT = 5867;
 const serverCode = `
-// server.js
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
@@ -137,6 +136,22 @@ const teamsUrls = {
     WC: 'https://api.football-data.org/v4/competitions/WC/teams',
 };
 
+const scorersUrl = {
+    PL: 'https://api.football-data.org/v4/competitions/PL/scorers',
+    CL: 'https://api.football-data.org/v4/competitions/CL/scorers',
+    BL1: 'https://api.football-data.org/v4/competitions/BL1/scorers',
+    DED: 'https://api.football-data.org/v4/competitions/DED/scorers',
+    BSA: 'https://api.football-data.org/v4/competitions/BSA/scorers',
+    PD: 'https://api.football-data.org/v4/competitions/PD/scorers',
+    FL1: 'https://api.football-data.org/v4/competitions/FL1/scorers',
+    ELC: 'https://api.football-data.org/v4/competitions/ELC/scorers',
+    PPL: 'https://api.football-data.org/v4/competitions/PPL/scorers',
+    EC: 'https://api.football-data.org/v4/competitions/EC/scorers',
+    SA: 'https://api.football-data.org/v4/competitions/SA/scorers',
+    CLI: 'https://api.football-data.org/v4/competitions/CLI/scorers',
+    WC: 'https://api.football-data.org/v4/competitions/WC/scorers',
+};
+
 // League logos mapping
 const leagueLogos = {
     PL: 'images/leagues/premier-league.png',
@@ -241,6 +256,38 @@ const clubsLogos = {
     673: 'images/clubs/heerenveen.png',
     // Add additional mappings for club IDs and logo paths
 };
+
+app.get('/soccer-data-scorers', async (req, res) => {
+    const league = req.query.league; // Get league code from query parameter
+    const apiUrl = scorersUrl[league]; // Fetch the corresponding API URL
+
+    if (!apiUrl) {
+        return res.status(400).json({ error: 'Invalid league code' }); // Return error if league is not found
+    }
+
+    try {
+        // Assuming you have a function to fetch the next API key
+        const apiKey = getNextApiKey(); // Get your next available API key
+
+        const response = await axios.get(apiUrl, {
+            headers: { 'X-Auth-Token': apiKey } // Add your API key in the request headers
+        });
+
+        const scorersWithLogos = response.data.scorers.map(scorer => {
+            return {
+                playerName: scorer.player.name,
+                teamName: scorer.team.name,
+                goals: scorer.goals,
+                teamLogo: 'https://crests.football-data.org/' + scorer.team.id + '.png', // Team logo based on team ID
+            };
+        });
+
+        // Return the mapped scorers with logos to the client
+        res.json({ scorers: scorersWithLogos });
+    } catch (error) {
+        res.status(500).json({ error: error.message }); // Handle errors
+    }
+});
 
 app.get('/soccer-data-matches', async (req, res) => {
     const league = req.query.league;
@@ -408,13 +455,21 @@ app.get('/upcoming/upcoming.css', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'upcoming', 'upcoming.css')); // Serve the live-matches.html file
 });
 
-app.get('/standings/upcoming.js', (req, res) => {
+app.get('/upcoming/logo.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'upcoming', 'logo.png')); // Serve the live-matches.html file
+});
+
+app.get('/upcoming/upcoming.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'upcoming', 'upcoming.js')); // Serve the live-matches.html file
 });
 
 // Route for the live matches URL
 app.get('/live', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'live', 'live.html')); // Serve the live-matches.html file
+});
+
+app.get('/live/logo.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'live', 'logo.png')); // Serve the live-matches.html file
 });
 
 app.get('/live/live-script.js', (req, res) => {
@@ -437,6 +492,10 @@ app.get('/standings', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'standings', 'standings.html')); // Serve the live-matches.html file
 });
 
+app.get('/standings/logo.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'standings', 'logo.png')); // Serve the live-matches.html file
+});
+
 app.get('/standings/standings.css', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'standings', 'standings.css')); // Serve the live-matches.html file
 });
@@ -449,6 +508,10 @@ app.get('/teams', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'teams', 'teams.html')); // Serve the live-matches.html file
 });
 
+app.get('/teams/logo.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'teams', 'logo.png')); // Serve the live-matches.html file
+});
+
 // Serve styles.css when requested
 app.get('/teams/teams.css', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'teams', 'teams.css'));
@@ -459,9 +522,31 @@ app.get('/teams/teams.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'teams', 'teams.js'));
 });
 
+app.get('/scorers', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'scorers', 'scorers.html')); // Serve the live-matches.html file
+});
+
+app.get('/scorers/logo.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'scorers', 'logo.png')); // Serve the live-matches.html file
+});
+
+// Serve styles.css when requested
+app.get('/scorers/scorers.css', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'scorers', 'scorers.css'));
+});
+
+// Serve styles.css when requested
+app.get('/scorers/scorers.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'scorers', 'scorers.js'));
+});
+
 // Serve played.html when /played-matches is accessed
 app.get('/played', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'played', 'played.html'));
+});
+
+app.get('/played/logo.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'played', 'logo.png')); // Serve the live-matches.html file
 });
 
 // Serve styles.css when requested
@@ -482,6 +567,18 @@ app.get('/home', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home', 'index.html'));
 });
 
+app.get('/home/logo.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'home', 'logo.png')); // Serve the live-matches.html file
+});
+
+app.get('/home/logo2.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'home', 'logo2.png')); // Serve the live-matches.html file
+});
+
+app.get('/home/home.css', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'home', 'home.css'));
+});
+
 app.get('/home/styles.css', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'played', 'styles.css'));
 });
@@ -491,7 +588,7 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log('Server running on http://localhost:' + PORT);
+    console.log('Server running on https://soccervortex-github-io.onrender.com/');
 });
 `;
 

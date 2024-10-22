@@ -1,113 +1,92 @@
+/* General Styles */
 body {
-  font-family: 'Rethink Sans', sans-serif;
-  background-color: #222831;
-  margin: 0;
-  padding: 20px;
+    font-family: 'Rethink Sans', sans-serif;
+    background-color: #222831;
+    margin: 0;
+    padding: 20px;
 }
 
 .container {
-  max-width: 800px;
-  margin: 0 auto;
-  background: #282E3A;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+    background: #282E3A;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-  
+
+/* Header Styles */
 h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #2DD4BF;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2DD4BF;
 }
 
-.vs {
-  margin: 0 15px; /* Add space around vs */
-}
-
-p {
-  text-align: center;
-}
-
-ul li {
-  background: #333; /* Darker background for list items */
-  margin: 5px 0;
-  padding: 10px;
-  text-align: center;
-  border-radius: 5px;
-}
-
-li {
-  text-align: center;
-}
-
-  .match {
-    align-items: center; /* Centers logos and text vertically */
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-  }
-  
-  .title {
+.title {
     width: 200px;
     height: auto;
     border-radius: 5px;
   }
 
-  .team-info {
-    display: flex;
-    align-items: center; /* Centers logos and team names vertically */
-  }
-  
-  .match p {
-    margin: 0;
-    font-size: 14px;
-    color: #fff;
-    line-height: 1.5;
-    align-items: center; /* Centers logos and text vertically */
-  }
-  
-  .team-name {
-    margin-right: 10px;
-    align-items: center; /* Centers logos and text vertically */
-    margin-left: 10px;
-    font-weight: bold;
-  }
-  
-  /* Optional: Additional styling for layout */
-  .match-details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Centers logos and text vertically */
-    width: 100%;
-  }
-  
   .league-logo {
     width: 30px; /* Adjust width as needed */
     height: auto;
     margin-right: 10px;
-  }
-  
-  .team-logo {
-    width: 25px; /* Adjust width as needed */
-    height: auto;
-    margin-right: 10px;
-    vertical-align: middle; /* Aligns logos vertically */
-  }
-  
-  .team-info {
+    color: #fff;
+    text-decoration: #fff;
+    lighting-color: #fff;
+}
+
+ul li {
+    background: #333; /* Darker background for list items */
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#soccer-data-scorers .scorer {
     display: flex;
     align-items: center;
-  }
-  
-  .vs {
-    margin: 0 15px; /* Add space around vs */
-  }
-  
-  .score {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd; /* Adds a border for separation */
+}
+
+.scorer-position {
+    font-size: 18px;
     font-weight: bold;
-    margin: 0 10px; /* Add some space around scores */
-  }
-  
-  .navbar {
+    color: #fff;
+    margin-right: 10px;
+}
+
+.team-logo {
+    width: 30px; /* Adjust width as needed */
+    height: auto;
+    vertical-align: middle; 
+    margin-right: 10px; /* Add space between logo and team name */
+}
+
+.scorer-name {
+    font-size: 20px; /* Make the name larger */
+    font-weight: bold;
+    color: #fff; /* Change text color */
+    flex: 1; /* Take up remaining space */
+}
+
+.team-name {
+    font-size: 20px; /* Make the name larger */
+    font-weight: bold;
+    color: #fff; /* Change text color */
+    flex: 1; /* Take up remaining space */
+}
+
+.scorer-goals {
+    font-size: 16px;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.navbar {
     background-color: #222831; /* Green background */
     padding: 10px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -192,7 +171,3 @@ li {
           width: 95%;
       }
   }
-  .section {
-    margin: 20px;               /* Optional margin for spacing */
-  }
-  

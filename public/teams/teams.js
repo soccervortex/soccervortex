@@ -1,5 +1,5 @@
 // Define the default league
-const defaultLeague = 'PL'; // Example: Use the code for Premier League
+const defaultLeague = 'CL'; // Example: Use the code for Premier League
 
 // Add event listener for league selection changes
 document.getElementById('league-select').addEventListener('change', function() {

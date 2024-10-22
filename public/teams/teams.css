@@ -1,32 +1,46 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
+  font-family: 'Rethink Sans', sans-serif;
+  background-color: #222831;
+  margin: 0;
+  padding: 20px;
 }
 
 .container {
-    max-width: 800px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+  background: #282E3A;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-    text-align: center;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2DD4BF;
 }
 
-.custom-select-wrapper {
-    position: relative;
-    width: 100%;
+.title {
+  width: 200px;
+  height: auto;
+  border-radius: 5px;
 }
 
-.custom-select-wrapper select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
+p {
+  text-align: center;
+  color: #fff;
+}
+
+ul li {
+  background: #333; /* Darker background for list items */
+  margin: 5px 0;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+li {
+  text-align: center;
 }
 
 #teams-container {
@@ -50,49 +64,91 @@ h1 {
 .team-card h3 {
     font-size: 16px;
     margin: 5px 0;
+    color: #fff;
 }
 
-/* Add this to styles.css or create navbar-styles.css */
 .navbar {
-    background-color: #4caf50; /* Green background */
-    padding: 10px 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .navbar .container {
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .navbar-brand {
+  background-color: #222831; /* Green background */
+  padding: 10px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.navbar .container {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 5px;
+  align-items: center;
+}
+
+.navbar-brand {
     font-size: 24px;
-    color: black;
+    color: #fff; /* Yellow brand color */
     text-decoration: none;
-  }
-  
-  .navbar-menu {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .navbar-menu li {
-    margin-left: 20px;
-  }
-  
-  .navbar-menu a {
-    color: black;
+    font-weight: bold;
+}
+
+.navbar-brand:hover{
+    font-size: 24px;
+    color: #ffcc00; /* Yellow brand color */
+    text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00; /* Glow effect */
     text-decoration: none;
-    padding: 8px 12px;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .navbar-menu a:hover {
-    background-color: white;
-    color: #4caf50; /* Change text color on hover */
-    border-radius: 4px; /* Rounded corners */
-  }
+    font-weight: bold;
+}
+
+.navbar-menu {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-menu li {
+  margin-left: 20px;
+}
+
+.navbar-menu a {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 12px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-menu a:hover {
+    color: #ffcc00; /* Bright yellow for hover effect */
+    text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00; /* Glow effect */
+}
+
+/* Select Dropdown Styles */
+.custom-select-wrapper {
+    position: relative;
+    width: 100%;
+    color: #fff;
+}
+
+.custom-select-wrapper select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    color: #fff;
+    background-color: #222831;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .navbar-menu {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar-menu li {
+        margin: 10px 0;
+    }
+
+    .container {
+        width: 95%;
+    }
+}

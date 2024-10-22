@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soccer Vortex</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/played/styles.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="container">
-            <a href="https://soccervortex-github-io.onrender.com/home/" class="navbar-brand">Soccer Vortex</a>
+            <a href="https://soccervortex-github-io.onrender.com/teams/" class="navbar-brand"><img class="title" id="title" src="logo.png"></a>
             <ul class="navbar-menu">
                 <li><a href="https://soccervortex-github-io.onrender.com/home/">Home</a></li>
                 <li><a href="https://soccervortex-github-io.onrender.com/standings/">Standings</a></li>
@@ -17,19 +20,22 @@
                 <li><a href="https://soccervortex-github-io.onrender.com/upcoming/">Upcoming Matches</a></li>
                 <li><a href="https://soccervortex-github-io.onrender.com/played/">Played Matches</a></li>
                 <li><a href="https://soccervortex-github-io.onrender.com/teams/">Teams</a></li>
+                <li><a href="https://soccervortex-github-io.onrender.com/scorers/">Scorers</a></li>
             </ul>
         </div>
     </nav>
     <div class="container">
-        <section id="home" class="section">
+        <section id="home" class="home">
             <h1>Welcome to the Soccer Vortex</h1>
-            <p>Your one-stop solution for finding soccer stats by leagues and teams!</p>
-        <section id="about" class="section">
+            <div class="thumbnail-container">
+                <img class="thumbnail" id="thumbnail" src="logo2.png" alt="Soccer Vortex">
+            </div>
+        <section id="about" class="about">
             <h1>About Us</h1>
             <p>We are dedicated to providing soccer enthusiasts with the latest information about their favorite leagues / teams. Whether you're looking for details about club positions, match schedules, or live matches, we've got you covered.</p>
         </section>
 
-        <section id="services" class="section">
+        <section id="services" class="services">
             <h1>Our Services</h1>
             <ul>
                 <p>Real-time Team Updates: Get the latest news and updates on your favorite leagues / teams.</p>
@@ -40,14 +46,14 @@
             </ul>
         </section>
 
-        <section id="contact" class="section">
+        <section id="contact" class="contact">
             <h1>Contact Us</h1>
             <p>If you have any questions or feedback, feel free to reach out to our support email!</p>
             <p>Please report bugs / updates immediately!</p>
-            <p><a href="mailto:help.soccervortex@gmail.com" target="_blank">help.soccervortex@gmail.com</a></p>
+            <p><a class="mail" id="mail" href="mailto:help.soccervortex@gmail.com" target="_blank">help.soccervortex@gmail.com</a></p>
         </section>
 
-        <section id="viewer-count" class="section">
+        <section id="viewer-count" class="viewer">
             <h1>Viewer Counter</h1>
             <script type="text/javascript" src="//counter.websiteout.com/js/7/0/0/1"></script>
         </section>

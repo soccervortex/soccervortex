@@ -1,7 +1,7 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Rethink Sans', sans-serif;
+    background-color: #222831;
     margin: 0;
     padding: 20px;
 }
@@ -9,63 +9,77 @@ body {
 .container {
     max-width: 800px;
     margin: 0 auto;
-    background: white;
+    background: #282E3A;
     padding: 20px;
+    border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 
 /* Header Styles */
 h1 {
     text-align: center;
     margin-bottom: 20px;
+    color: #2DD4BF;
 }
+
+.title {
+    width: 200px;
+    height: auto;
+    border-radius: 5px;
+  }
 
 .league-logo {
     width: 30px; /* Adjust width as needed */
     height: auto;
     margin-right: 10px;
+    color: #fff;
+    text-decoration: #fff;
+    lighting-color: #fff;
 }
 
-/* Standings Table Styles */
-#soccer-data-standings {
-    display: table;
-    width: 100%;
-    border-collapse: collapse; /* Collapses borders for better alignment */
-}
-
-.team {
-    display: table-row; /* Makes team elements behave like table rows */
-    height: 50px; /* Sets a fixed height for rows */
-}
-
-.team > div {
-    display: table-cell; /* Makes child divs behave like table cells */
+ul li {
+    background: #333; /* Darker background for list items */
+    margin: 5px 0;
     padding: 10px;
-    text-align: left; /* Aligns text to the left */
+    border-radius: 5px;
+}
+/* Standings Table Styles */
+#soccer-data-standings .team {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
     border-bottom: 1px solid #ddd; /* Adds a border for separation */
 }
 
-.team img {
-    width: 25px; /* Adjust width as needed */
-    height: auto;
-    vertical-align: middle; /* Aligns logos vertically */
-}
-
-/* Specific Cell Styles */
+/* Control the position styling */
 .team-position {
-    width: 5%; /* Adjust the width for the position column */
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    margin-right: 10px;
 }
 
+/* Control the logo styling */
 .team-logo {
-    margin-right: 10px; /* Space between logo and name */
+    width: 30px; /* Adjust width as needed */
+    height: auto;
+    vertical-align: middle; 
+    margin-right: 10px; /* Add space between logo and team name */
 }
 
 .team-name {
-    font-weight: bold; /* Makes team names bold */
+    font-size: 20px; /* Make the name larger */
+    font-weight: bold;
+    color: #fff; /* Change text color */
+    flex: 1; /* Take up remaining space */
 }
 
 .team-points {
-    width: 10%; /* Adjust width for points */
+    font-size: 16px;
+    color: #fff;
+    margin-left: 10px;
 }
 
 /* Match Styles */
@@ -76,23 +90,35 @@ h1 {
 
 /* Navbar Styles */
 .navbar {
-  background-color: #4caf50; /* Green background */
+  background-color: #222831; /* Green background */
   padding: 10px 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  margin-bottom: 5px;
 }
 
 .navbar .container {
-  max-width: 800px;
+  max-width: 1300px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
+  border-radius: 5px;
   align-items: center;
 }
 
 .navbar-brand {
-  font-size: 24px;
-  color: black;
-  text-decoration: none;
+    font-size: 24px;
+    color: #fff; /* Yellow brand color */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar-brand:hover{
+    font-size: 24px;
+    color: #ffcc00; /* Yellow brand color */
+    text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00; /* Glow effect */
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .navbar-menu {
@@ -107,26 +133,44 @@ h1 {
 }
 
 .navbar-menu a {
-  color: black;
+  color: #fff;
   text-decoration: none;
   padding: 8px 12px;
   transition: background-color 0.3s, color 0.3s;
 }
 
 .navbar-menu a:hover {
-  background-color: white;
-  color: #4caf50; /* Change text color on hover */
-  border-radius: 4px; /* Rounded corners */
+    color: #ffcc00; /* Bright yellow for hover effect */
+    text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00; /* Glow effect */
 }
 
 /* Select Dropdown Styles */
 .custom-select-wrapper {
     position: relative;
     width: 100%;
+    color: #fff;
 }
 
 .custom-select-wrapper select {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
+    color: #fff;
+    background-color: #222831;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .navbar-menu {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar-menu li {
+        margin: 10px 0;
+    }
+
+    .container {
+        width: 95%;
+    }
 }
