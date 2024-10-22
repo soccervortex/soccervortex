@@ -1,21 +1,83 @@
 const fs = require('fs');
 const PORT = 5867;
 const serverCode = `
-
-
-
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const path = require('path');
 const app = express();
 const PORT = 5867;
+const session = require('express-session');
+const bodyParser = require('body-parser');  // For parsing form data
 
 // Enable CORS
 app.use(cors());
 
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // Serve static files from the "public" directory
 app.use(express.static('public'));
+
+// Configure session
+app.use(session({
+    secret: 'wesleystephanieomaenmaendavy',  // Secure key
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }   // Use 'true' only if using HTTPS
+}));
+
+app.use((req, res, next) => {
+    res.set('Cache-Control', 'no-store');  // Prevent browser caching
+    next();
+});
+
+// Middleware to check if user is logged in
+function isAuthenticated(req, res, next) {
+    if (req.session.loggedIn) {
+        return next();  // User is authenticated, proceed to the admin page
+    } else {
+        res.redirect('/adminsecurity/login');  // Redirect to login if not logged in
+    }
+}
+
+// Login route (renders login form)
+app.get('/adminsecurity/login', (req, res) => {
+    res.send(\`
+        <form method="POST" action="/adminsecurity/login">
+            <input type="text" name="username" placeholder="Username" required/>
+            <input type="password" name="password" placeholder="Password" required/>
+            <button type="submit">Login</button>
+        </form>
+    \`);
+});
+
+// Handle login POST request
+app.post('/adminsecurity/login', (req, res) => {
+    const { username, password } = req.body;
+
+    // Dummy check for username and password, replace with real authentication
+    if (username === 'w_rz0115' && password === 'System1153.') {
+        req.session.loggedIn = true;  // Set loggedIn to true
+        res.redirect('/admin');  // Redirect to the admin page
+    } else {
+        res.send('Invalid credentials. <a href="/adminsecurity/login">Try again</a>');
+    }
+});
+
+// Logout route
+app.get('/adminsecurity/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.send('Error logging out.');
+        }
+
+        // Clear cookies (optional, but recommended)
+        res.clearCookie('connect.sid', { path: '/' });
+        
+        // Redirect to the main page after logging out
+        res.redirect('https://soccervortex-github-io.onrender.com');  // Redirect to your main page
+    });
+});
 
 const apiKeys = [
     '1d171366cdf64118b495dba4cf37603f', // Key 1
@@ -570,6 +632,22 @@ app.get('/home', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home', 'index.html'));
 });
 
+app.get('/admin', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'admin.html'));
+});
+
+app.get('/admin/admin.css', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'admin.html'));
+});
+
+app.get('/admin/logo.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'logo.png')); // Serve the live-matches.html file
+});
+
+app.get('/admin/logo2.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'logo2.png')); // Serve the live-matches.html file
+});
+
 app.get('/home/logo.png', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'played', 'logo.png')); // Serve the live-matches.html file
 });
@@ -612,6 +690,7 @@ app.get('/404/404.css', (req, res) => {
 app.listen(PORT, () => {
     console.log('Server running on https://soccervortex-github-io.onrender.com/');
 });
+
 
 
 `;
