@@ -10,9 +10,9 @@ jobs:
       - name: Deploy Latest Commit to Render Service
         run: |
           curl -X POST https://api.render.com/v1/services/srv-cs7ldlbv2p9s73f4n9gg/deploys \
-          -H "Authorization: Bearer rnd_qXWPK6GxSunmOm9n59u4hgUz9SiC" \
+          -H "Authorization: Bearer ${{ secrets.DEPLOYAPI }}" \
           -H "Content-Type: application/json" \
           -d '{
             "type": "manual",
-            "branch": "main"  # Replace with the branch you want to deploy
+            "branch": "main"
           }'
