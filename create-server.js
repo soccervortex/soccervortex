@@ -1,6 +1,7 @@
 const fs = require('fs');
 const PORT = 5867;
 const serverCode = `
+
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
@@ -575,6 +576,14 @@ app.get('/home/logo2.png', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home', 'logo2.png')); // Serve the live-matches.html file
 });
 
+app.get('/home/logo.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'played', 'logo.png')); // Serve the live-matches.html file
+});
+
+app.get('/home/logo2.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'played', 'logo2.png')); // Serve the live-matches.html file
+});
+
 app.get('/home/home.css', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home', 'home.css'));
 });
@@ -587,9 +596,18 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home', 'index.html'));
 });
 
+app.get('/logo.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'home', 'logo.png'));
+});
+
+app.get('/logo2.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'home', 'logo2.png'));
+});
+
 app.listen(PORT, () => {
     console.log('Server running on https://soccervortex-github-io.onrender.com/');
 });
+
 `;
 
 fs.writeFileSync('server.js', serverCode);
