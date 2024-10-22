@@ -1,7 +1,7 @@
-name: Deploy Render Service
+name: Deploy Latest Commit to Render
 
 on:
-  workflow_dispatch:  # This allows manual triggering
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   deploy:
@@ -9,6 +9,10 @@ jobs:
     steps:
       - name: Deploy Latest Commit to Render Service
         run: |
-          curl -X POST https://api.render.com/v1/services/srv-cs7ldlbv2p9s73f4n9gg/deploy \
+          curl -X POST https://api.render.com/v1/services/srv-cs7ldlbv2p9s73f4n9gg/deploys \
           -H "Authorization: Bearer rnd_qXWPK6GxSunmOm9n59u4hgUz9SiC" \
-          -H "Content-Type: application/json"
+          -H "Content-Type: application/json" \
+          -d '{
+            "type": "manual",
+            "branch": "main"  # Replace with the branch you want to deploy
+          }'
