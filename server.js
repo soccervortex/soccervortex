@@ -22,7 +22,27 @@ const apiKeys = [
     'b060899c58594b588e39b55e6bc0f381', // Replace with actual API key
     '8d93e7ae96994178b810cf320b8b94a0', // Replace with actual API key
     '6d5ca969981046999ac2289bda7480e4', // Replace with actual API key
-    'af4fb0ab26b643c8b69801a7c81f5062' // Replace with actual API key
+    'af4fb0ab26b643c8b69801a7c81f5062', // Replace with actual API key
+    '6e11d26d54d74bc0b1bcedfe861a8ba1', // Key 1
+    '3a1d1a3ec99f4336a9c0b1caf8cab827', // Replace with actual API key
+    'c4b0b8fd9c974f0e83bfe35b94c23fa5', // Replace with actual API key
+    '4acc113ba36e4e38b1c2cd9b6ad57595', // Replace with actual API key
+    'ffdd3c66e958472b889010e4bddaf682', // Replace with actual API key
+    '9f5df27b0446477d830c60bb48f30c82', // Replace with actual API key
+    '8b4436052ce14ce491f2e1cca6fabfb4', // Replace with actual API key
+    'e2f6b32c68384ead9afca9b776594bd0', // Replace with actual API key
+    '19314b1b0f1b4dc08ded171fd4b91ae2', // Replace with actual API key
+    'e34e4cc747e843de949c7fb48ebc3fdf', // Replace with actual API key
+    '3101f59f9ed442c39617e3b9c890bdac', // Key 1
+    'f3b591096353492d8316129d930165c3', // Replace with actual API key
+    'c9caf1db997a49cc9ad08fc5054cecf9', // Replace with actual API key
+    '3d24370ae71445ed8fb4b0f19424a7c3', // Replace with actual API key
+    'a3249f8fea604b2886def73e7d199625', // Replace with actual API key
+    'bb8a48869d3a4681be57be06a287f52e', // Replace with actual API key
+    'aaa7f1a514a346e5a183fc81293cffe0', // Replace with actual API key
+    'cf8cb02202c9469e85d6ac3f3f08259d', // Replace with actual API key
+    '659eb30d53274517a00a76ae2590d60e', // Replace with actual API key
+    '8281e53276f94ab0ba4ce67bd6218007' // Replace with actual API key
 ];
 
 let currentApiKeyIndex = 0;
@@ -67,6 +87,22 @@ const standingsUrls = {
 };
 
 const liveUrls = {
+    PL: 'https://api.football-data.org/v4/competitions/PL/matches',
+    CL: 'https://api.football-data.org/v4/competitions/CL/matches',
+    BL1: 'https://api.football-data.org/v4/competitions/BL1/matches',
+    DED: 'https://api.football-data.org/v4/competitions/DED/matches',
+    BSA: 'https://api.football-data.org/v4/competitions/BSA/matches',
+    PD: 'https://api.football-data.org/v4/competitions/PD/matches',
+    FL1: 'https://api.football-data.org/v4/competitions/FL1/matches',
+    ELC: 'https://api.football-data.org/v4/competitions/ELC/matches',
+    PPL: 'https://api.football-data.org/v4/competitions/PPL/matches',
+    EC: 'https://api.football-data.org/v4/competitions/EC/matches',
+    SA: 'https://api.football-data.org/v4/competitions/SA/matches',
+    CLI: 'https://api.football-data.org/v4/competitions/CLI/matches',
+    WC: 'https://api.football-data.org/v4/competitions/WC/matches',
+};
+
+const upcomingUrls = {
     PL: 'https://api.football-data.org/v4/competitions/PL/matches',
     CL: 'https://api.football-data.org/v4/competitions/CL/matches',
     BL1: 'https://api.football-data.org/v4/competitions/BL1/matches',
@@ -330,6 +366,37 @@ app.get('/soccer-data-live', async (req, res) => {
     }
 });
 
+app.get('/soccer-data-upcoming', async (req, res) => {
+    const league = req.query.league;
+    const apiUrl = upcomingUrls[league];
+
+    if (!apiUrl) {
+        return res.status(400).json({ error: 'Invalid league code' });
+    }
+
+    try {
+        // Get the next API key and log it
+        const apiKey = getNextApiKey();
+        
+        const response = await axios.get(apiUrl, {
+            headers: { 'X-Auth-Token': apiKey }
+        });
+
+        const matchesWithLogos = response.data.matches.map(match => {
+            return {
+                ...match,
+                leagueLogo: `https://crests.football-data.org/${match.competition.code}.png`,
+                homeTeamLogo: `https://crests.football-data.org/${match.homeTeam.id}.png`,
+                awayTeamLogo: `https://crests.football-data.org/${match.awayTeam.id}.png`,
+            };
+        });
+
+        res.json({ matches: matchesWithLogos });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Route for the live matches URL
 app.get('/live-matches', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'live.html')); // Serve the live-matches.html file
@@ -347,7 +414,7 @@ app.get('/played-matches', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'played.html')); // Serve the live-matches.html file
 });
 
-app.get('/team-url', (req, res) => {
+app.get('/team-logo--url', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'standings.html')); // Serve the live-matches.html file
 });
 
