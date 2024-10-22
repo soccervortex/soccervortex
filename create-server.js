@@ -576,14 +576,6 @@ app.get('/home/logo2.png', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home', 'logo2.png')); // Serve the live-matches.html file
 });
 
-app.get('/home/logo.png', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'played', 'logo.png')); // Serve the live-matches.html file
-});
-
-app.get('/home/logo2.png', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'played', 'logo2.png')); // Serve the live-matches.html file
-});
-
 app.get('/home/home.css', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home', 'home.css'));
 });
@@ -594,14 +586,6 @@ app.get('/home/styles.css', (req, res) => {
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home', 'index.html'));
-});
-
-app.get('/logo.png', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'home', 'logo.png'));
-});
-
-app.get('/logo2.png', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'home', 'logo2.png'));
 });
 
 app.listen(PORT, () => {
