@@ -1,8 +1,8 @@
 /* live-styles.css */
 
 .match.live {
-    background-color: #e0ffe0; /* Light green background for live matches */
-    border-left: 5px solid #4caf50; /* Green left border */
+    background-color: #282E3A; /* Light green background for live matches */
+    border-left: 5px solid #282E3A; /* Green left border */
     padding: 10px;
     margin-bottom: 10px;
 }
@@ -103,6 +103,30 @@ li {
 .navbar-menu a:hover {
     color: #ffcc00; /* Bright yellow for hover effect */
     text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00; /* Glow effect */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #282E3A; /* Change as needed */
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: #fff; /* Change as needed */
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #282E3A; /* Change as needed */
+}
+
+.dropdown:hover .dropdown-content {
+  display: block; /* Show dropdown on hover */
 }
 
 /* Select Dropdown Styles */

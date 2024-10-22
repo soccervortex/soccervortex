@@ -162,6 +162,30 @@ li {
       text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00; /* Glow effect */
   }
   
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #282E3A; /* Change as needed */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: #fff; /* Change as needed */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #282E3A; /* Change as needed */
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block; /* Show dropdown on hover */
+  }
+  
   /* Select Dropdown Styles */
   .custom-select-wrapper {
       position: relative;
