@@ -569,11 +569,11 @@ app.get('/home', (req, res) => {
 });
 
 app.get('/home/logo.png', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'home', 'logo.png')); // Serve the live-matches.html file
+    res.sendFile(path.join(__dirname, 'public', 'played', 'logo.png')); // Serve the live-matches.html file
 });
 
 app.get('/home/logo2.png', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'home', 'logo2.png')); // Serve the live-matches.html file
+    res.sendFile(path.join(__dirname, 'public', 'played', 'logo2.png')); // Serve the live-matches.html file
 });
 
 app.get('/home/home.css', (req, res) => {
