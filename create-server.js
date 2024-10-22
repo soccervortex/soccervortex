@@ -2,6 +2,7 @@ const fs = require('fs');
 const PORT = 5867;
 const serverCode = `
 
+
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
@@ -598,6 +599,14 @@ app.get('/logo.png', (req, res) => {
 
 app.get('/logo2.png', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'played', 'logo2.png')); // Serve the live-matches.html file
+});
+
+app.use((req, res, next) => {
+    res.status(404).sendFile(path.join(__dirname, 'public', '404', '404.html'));
+});
+
+app.get('/404/404.css', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', '404', '404.html'));
 });
 
 app.listen(PORT, () => {
