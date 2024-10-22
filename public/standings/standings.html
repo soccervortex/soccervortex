@@ -4,24 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soccer Dashboard</title>
-    <link rel="stylesheet" href="upcoming.css">
+    <link rel="stylesheet" href="/standings/standings.css">
 </head>
 <body>
       <nav class="navbar">
         <div class="container">
-            <a href="upcoming.html" class="navbar-brand">Soccer Vortex</a>
+            <a href="https://soccervortex-github-io.onrender.com/standings/" class="navbar-brand">Soccer Vortex</a>
             <ul class="navbar-menu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="standings.html">Standings</a></li>
-                <li><a href="live.html">Live Matches</a></li>
-                <li><a href="upcoming.html">Upcoming Matches</a></li>
-                <li><a href="played.html">Played Matches</a></li>
-                <li><a href="teams.html">Teams</a></li>
+                <li><a href="https://soccervortex-github-io.onrender.com/home/">Home</a></li>
+                <li><a href="https://soccervortex-github-io.onrender.com/standings/">Standings</a></li>
+                <li><a href="https://soccervortex-github-io.onrender.com/live/">Live Matches</a></li>
+                <li><a href="https://soccervortex-github-io.onrender.com/upcoming/">Upcoming Matches</a></li>
+                <li><a href="https://soccervortex-github-io.onrender.com/played/">Played Matches</a></li>
+                <li><a href="https://soccervortex-github-io.onrender.com/teams/">Teams</a></li>
             </ul>
         </div>
     </nav>
     <div class="container">
-        <h1>Soccer Matches</h1>
+        <h1>Soccer Standings</h1>
         <div class="custom-select-wrapper">
             <select id="league-select" onchange="updateLeagueLogo(this)">
                 <option value="PL" data-logo="https://crests.football-data.org/PL.png">Premier League</option>
@@ -39,8 +39,16 @@
                 <option value="WC" data-logo="https://crests.football-data.org/qatar.png">World Cup</option>
             </select>
         </div>
-        <div id="soccer-data-upcoming"></div>
+        <div id="soccer-data-standings">
+            <div class="team">
+                <span class="team-position">1.</span>
+                <img src="team-logo-url" alt="Team Logo" class="team-logo">
+                <span class="team-name">Team Name</span>
+                <span class="team-points">Points: 18</span>
+            </div>
+            <!-- More team elements -->
+        </div>
     </div>
-    <script src="upcoming.js"></script>
+    <script src="/standings/standings.js"></script>
 </body>
 </html>
