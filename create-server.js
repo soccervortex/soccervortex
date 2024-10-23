@@ -1,7 +1,6 @@
 const fs = require('fs');
 const PORT = 5867;
 const serverCode = `
-
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
@@ -12,9 +11,9 @@ const PORT = 5867;
 const simpleGit = require('simple-git');
 const session = require('express-session');
 const bodyParser = require('body-parser');  // For parsing form data
-const apiKeysFile = path.join(__dirname, 'apiKeys.json');
+const serverFile = path.join(__dirname, 'github', '1.0.0', '1.0.23', '1.0.7', 'server.json');
 const git = simpleGit();
-const reloadApiKeysFile = path.join(__dirname, 'reload.apiKeys.js');
+const reloadserverFile = path.join(__dirname, 'reload.server.js');
 
 // Enable CORS
 app.use(cors());
@@ -92,39 +91,40 @@ app.get('/adminsecurity/logout', (req, res) => {
     });
 });
 
-app.get('/admin/add-api-key', isAuthenticated, (req, res) => {
+app.get('/admin/add-server', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin', 'admin.html'));
 });
 
 app.post('/admin/add-api-key', isAuthenticated, async (req, res) => {
-    const { apiKey } = req.body;
+    const { server } = req.body;
 
-    if (!apiKey) {
+    if (!server) {
         return res.status(400).send('API Key is required');
     }
 
     // Load existing keys from the file
     let keys = [];
-    if (fs.existsSync(apiKeysFile)) {
-        keys = JSON.parse(fs.readFileSync(apiKeysFile));
+    if (fs.existsSync(serverFile)) {
+        keys = JSON.parse(fs.readFileSync(serverFile));
     }
 
     // Add the new API key
-    keys.push(apiKey);
+    keys.push(server);
 
     // Save the updated keys to the file
-    fs.writeFileSync(apiKeysFile, JSON.stringify(keys, null, 2));
+    fs.writeFileSync(serverFile, JSON.stringify(keys, null, 2));
 
     // Write to reload.apiKeys.js
-    const message = \`// A new API key was added on ${new Date().toISOString()}\n\`;
-    fs.appendFileSync(reloadApiKeysFile, message);
+    const message = `// A server version was added on 2024-10-23T21:54:04.347Z
+`;
+    fs.appendFileSync(reloadserverFile, message);
 
     try {
         
         await git.addConfig('user.name', process.env.GIT_USER_NAME);
         await git.addConfig('user.email', process.env.GIT_USER_EMAIL);
 
-        await git.add([reloadApiKeysFile]);
+        await git.add([reloadserverFile]);
         await git.commit('Add new API key and update reload.apiKeys.js');
         await git.push('origin', 'main'); // Make sure to specify the correct branch
 
@@ -136,8 +136,8 @@ app.post('/admin/add-api-key', isAuthenticated, async (req, res) => {
 });
 
 let apiKeys = [];
-if (fs.existsSync(apiKeysFile)) {
-    apiKeys = JSON.parse(fs.readFileSync(apiKeysFile));
+if (fs.existsSync(serverFile)) {
+    apiKeys = JSON.parse(fs.readFileSync(serverFile));
 }
 let currentApiKeyIndex = 0;
 
