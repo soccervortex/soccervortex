@@ -1,6 +1,7 @@
 const fs = require('fs');
 const PORT = 5867;
 const serverCode = `
+
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
@@ -11,7 +12,7 @@ const PORT = 5867;
 const simpleGit = require('simple-git');
 const session = require('express-session');
 const bodyParser = require('body-parser');  // For parsing form data
-const serverFile = path.join(__dirname, 'github', '1.0.0', '1.0.23', '1.0.7', 'server.json');
+const serverFile = path.join(__dirname, 'github', 'old_versions', '1.0.0', '1.0.23', '1.0.7', 'server.json');
 const git = simpleGit();
 const reloadserverFile = path.join(__dirname, 'reload.server.js');
 
@@ -95,10 +96,14 @@ app.get('/admin/add-server', isAuthenticated, (req, res) => {
     res.redirect('https://soccervortex-github-io.onrender.com/admin');  // Redirect to your main page
 });
 
-app.get('/admin/add-server', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'github', '1.0.0', '1.0.23', '1.0.7', 'server.json'));
-});
+function ensureDirectoryExistence(filePath) {
+    const dirname = path.dirname(filePath);
+    if (!fs.existsSync(dirname)) {
+        fs.mkdirSync(dirname, { recursive: true }); // Create directory and subdirectories
+    }
+}
 
+// Add server route
 app.post('/admin/add-server', isAuthenticated, async (req, res) => {
     const { server } = req.body;
 
@@ -106,35 +111,38 @@ app.post('/admin/add-server', isAuthenticated, async (req, res) => {
         return res.status(400).send('API Key is required');
     }
 
-    // Load existing keys from the file
-    let keys = [];
-    if (fs.existsSync(serverFile)) {
-        keys = JSON.parse(fs.readFileSync(serverFile));
-    }
-
-    // Add the new API key
-    keys.push(server);
-
-    // Save the updated keys to the file
-    fs.writeFileSync(serverFile, JSON.stringify(keys, null, 2));
-
-    // Write to reload.apiKeys.js
-    const message = \`// A server version was added on 2024-10-23T21:54:04.347Z\n\`;
-    fs.appendFileSync(reloadserverFile, message);
-
     try {
-        
-        await git.addConfig('user.name', process.env.GIT_USER_NAME);
-        await git.addConfig('user.email', process.env.GIT_USER_EMAIL);
+        // Ensure directory exists before writing
+        ensureDirectoryExistence(serverFile);
 
-        await git.add([reloadserverFile]);
+        // Load existing keys
+        let keys = [];
+        if (fs.existsSync(serverFile)) {
+            keys = JSON.parse(fs.readFileSync(serverFile));
+        }
+
+        // Add new API key
+        keys.push(server);
+        fs.writeFileSync(serverFile, JSON.stringify(keys, null, 2));
+
+        // Write to reload.server.js
+        const message = \`// A server version was added on ${new Date().toISOString()}\n\`;
+        fs.appendFileSync(reloadserverFile, message);
+
+        // Set up Git user configuration
+        await git.addConfig('user.name', 'soccervortex');
+        await git.addConfig('user.email', 'reigerwesley@gmail.com');
+
+        await git.add([reloadserverFile, serverFile]);
         await git.commit('Add new server version and update reload.server.js');
-        await git.push('origin', 'main'); // Make sure to specify the correct branch
-        console.log('It posted it');
-        res.redirect('/admin'); // Redirect back to the admin page after saving
+
+        // Push changes to GitHub
+        const pushResult = await git.push('origin', 'main'); // Change 'main' if your branch is different
+        console.log('Pushed to GitHub successfully:', pushResult);
+        res.redirect('/admin'); // Success redirect
     } catch (error) {
-        console.error('Failed to push to GitHub:', error);
-        res.status(500).send('Failed to deploy the new API key to GitHub');
+        console.error('Error while adding server:', error);
+        res.status(500).send('Failed to update the server configuration');
     }
 });
 
