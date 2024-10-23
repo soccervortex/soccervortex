@@ -125,7 +125,7 @@ app.post('/admin/add-api-key', isAuthenticated, async (req, res) => {
         await git.addConfig('user.email', process.env.GIT_USER_EMAIL);
 
         await git.add([reloadserverFile]);
-        await git.commit('Add new API key and update reload.apiKeys.js');
+        await git.commit('Add new server version and update reload.server.js');
         await git.push('origin', 'main'); // Make sure to specify the correct branch
 
         res.redirect('/admin'); // Redirect back to the admin page after saving
