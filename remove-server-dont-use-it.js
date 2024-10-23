@@ -15,7 +15,7 @@ const filePath = path.join(serverDir, 'server.json');
 if (fs.existsSync(filePath)) {
     // Load existing API keys from the file
     const server = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-    console.log('Deleted server:', server);
+    console.log('Deleted server');
 } else {
     console.error('server.json does not exist. Please check the path.');
 }
