@@ -92,7 +92,11 @@ app.get('/adminsecurity/logout', (req, res) => {
 });
 
 app.get('/admin/add-server', isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'admin', 'admin.html'));
+    res.redirect('https://soccervortex-github-io.onrender.com/admin');  // Redirect to your main page
+});
+
+app.get('/admin/add-server', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'github', '1.0.0', '1.0.23', '1.0.7', 'server.json'));
 });
 
 app.post('/admin/add-server', isAuthenticated, async (req, res) => {
@@ -126,7 +130,7 @@ app.post('/admin/add-server', isAuthenticated, async (req, res) => {
         await git.add([reloadserverFile]);
         await git.commit('Add new server version and update reload.server.js');
         await git.push('origin', 'main'); // Make sure to specify the correct branch
-
+        console.log('It posted it');
         res.redirect('/admin'); // Redirect back to the admin page after saving
     } catch (error) {
         console.error('Failed to push to GitHub:', error);

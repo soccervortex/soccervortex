@@ -1,0 +1,122 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Rethink Sans', sans-serif;
+    line-height: 1.6;
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text for contrast */
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #1c1c1c; /* Darker navbar */
+    padding: 15px 0;
+    border-bottom: 2px solid #ffcc00; /* Yellow bottom border */
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.navbar-brand {
+    font-size: 28px;
+    color: #ffcc00; /* Yellow brand color */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar-menu {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.navbar-menu li {
+    margin-left: 30px;
+}
+
+.navbar-menu a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+.navbar-menu a:hover {
+    color: #ffcc00; /* Bright yellow for hover effect */
+    text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00; /* Glow effect */
+}
+
+/* Main Sections */
+h1 {
+    color: #ffcc00; /* Header color */
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.about, .services, .contact, .viewer {
+    background-color: #222; /* Dark sections for contrast */
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style-type: none; /* No bullets for a cleaner look */
+    padding-left: 0;
+}
+
+ul li {
+    background: #333; /* Darker background for list items */
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #1c1c1c; /* Darker footer */
+    color: #e0e0e0;
+    text-align: center;
+    padding: 15px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Viewer Counter */
+.viewer {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ffcc00;
+    border-radius: 8px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .navbar-menu {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar-menu li {
+        margin: 10px 0;
+    }
+
+    .container {
+        width: 95%;
+    }
+}
