@@ -1,2 +1,5 @@
+# Ignore server.js
 server.js
+
+# Ignore API keys file
 apiKeys.json

@@ -37,7 +37,7 @@ if (!fs.existsSync(filePath)) {
     ];
 
     fs.writeFileSync(filePath, JSON.stringify(defaultKeys, null, 2), 'utf8');
-    console.log('apiKeys.json file created with default keys');
+    console.log('apiKeys.json has been created');
 } else {
     console.log('apiKeys.json already exists');
 }
