@@ -115,8 +115,7 @@ app.post('/admin/add-api-key', isAuthenticated, async (req, res) => {
     fs.writeFileSync(serverFile, JSON.stringify(keys, null, 2));
 
     // Write to reload.apiKeys.js
-    const message = `// A server version was added on 2024-10-23T21:54:04.347Z
-`;
+    const message = \`// A server version was added on 2024-10-23T21:54:04.347Z\n\`;
     fs.appendFileSync(reloadserverFile, message);
 
     try {
