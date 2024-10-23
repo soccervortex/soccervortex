@@ -95,7 +95,7 @@ app.get('/admin/add-server', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin', 'admin.html'));
 });
 
-app.post('/admin/add-api-key', isAuthenticated, async (req, res) => {
+app.post('/admin/add-server', isAuthenticated, async (req, res) => {
     const { server } = req.body;
 
     if (!server) {
