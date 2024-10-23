@@ -120,7 +120,10 @@ app.post('/admin/add-api-key', isAuthenticated, async (req, res) => {
     fs.appendFileSync(reloadApiKeysFile, message);
 
     try {
-        // Add, commit, and push changes to GitHub
+        
+        await git.addConfig('user.name', process.env.GIT_USER_NAME);
+        await git.addConfig('user.email', process.env.GIT_USER_EMAIL);
+
         await git.add([reloadApiKeysFile]);
         await git.commit('Add new API key and update reload.apiKeys.js');
         await git.push('origin', 'main'); // Make sure to specify the correct branch
