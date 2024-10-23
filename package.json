@@ -15,7 +15,8 @@
     "express": "^4.21.1",
     "express-session": "^1.18.1",
     "node-fetch": "^3.3.2",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "simple-git": "^3.27.0"
   },
   "description": ""
 }
