@@ -130,8 +130,8 @@ app.post('/admin/add-server', isAuthenticated, async (req, res) => {
         fs.appendFileSync(reloadserverFile, message);
 
         // Set up Git user configuration
-        await git.addConfig('user.name', 'soccervortex');
-        await git.addConfig('user.email', 'reigerwesley@gmail.com');
+        await git.addConfig('user.name', process.env.GIT_USER_NAME);
+        await git.addConfig('user.email', process.env.GIT_USER_EMAIL);
 
         await git.add([reloadserverFile, serverFile]);
         await git.commit('Add new server version and update reload.server.js');
