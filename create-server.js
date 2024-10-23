@@ -126,15 +126,19 @@ app.post('/admin/add-server', isAuthenticated, async (req, res) => {
         fs.writeFileSync(serverFile, JSON.stringify(keys, null, 2));
 
         // Write to reload.server.js
-        const message = \`// A server version was added on ${new Date().toISOString()}\n\`;
+        const message = \`// A server version was added on 2024-10-23T23:05:51.399Z\n\`;
         fs.appendFileSync(reloadserverFile, message);
 
         // Set up Git user configuration
         await git.addConfig('user.name', process.env.GIT_USER_NAME);
         await git.addConfig('user.email', process.env.GIT_USER_EMAIL);
 
+        // Add files to the Git index
         await git.add([reloadserverFile, serverFile]);
         await git.commit('Add new server version and update reload.server.js');
+
+        // Set the remote to use SSH
+        await git.addRemote('origin', 'git@github.com:soccevortex/soccevortex.git'); // Make sure this is your SSH URL
 
         // Push changes to GitHub
         const pushResult = await git.push('origin', 'main'); // Change 'main' if your branch is different
