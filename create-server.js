@@ -92,6 +92,10 @@ app.get('/adminsecurity/logout', (req, res) => {
     });
 });
 
+app.get('/admin/add-api-key', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'admin.html'));
+});
+
 app.post('/admin/add-api-key', isAuthenticated, async (req, res) => {
     const { apiKey } = req.body;
 
