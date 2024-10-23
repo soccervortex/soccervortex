@@ -1,6 +1,7 @@
 const fs = require('fs');
 const PORT = 5867;
 const serverCode = `
+
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
@@ -28,8 +29,6 @@ const mongoURI = 'mongodb+srv://reigerwesley:System1153@soccervortex.e7r8v.mongo
 
 // Connect to MongoDB
 mongoose.connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
 })
 .then(() => console.log('MongoDB connected!'))
 .catch(err => console.error('MongoDB connection error:', err));
