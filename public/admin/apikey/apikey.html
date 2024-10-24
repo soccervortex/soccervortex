@@ -55,6 +55,9 @@
                 if (error === 'failed') {
                     document.write("<p style='color: red;'>Failed to update the server configuration. Please try again.</p>");
                 }
+                if (error === 'invalidkey') {
+                    document.write("<p style='color: red;'>This API Key does not work. Please enter a valid API Key.</p>");
+                }
             </script>
         </div>
 

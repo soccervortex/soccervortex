@@ -108,6 +108,12 @@ app.post('/admin/apikey/add-server', isAuthenticated, async (req, res) => {
     }
 
     try {
+        // Test if API key is valid
+        const isValidKey = await testApiKey(server);
+        if (!isValidKey) {
+            return res.redirect('/admin/apikey?error=invalidkey'); // Show error if API key does not work
+        }
+
         // Mark deployment as in progress
         isDeploying = true;
 
@@ -149,6 +155,23 @@ app.post('/admin/apikey/add-server', isAuthenticated, async (req, res) => {
         return res.redirect('/admin/apikey?error=failed');
     }
 });
+
+// Function to test the API key
+async function testApiKey(apiKey) {
+    try {
+        const response = await axios.get('https://api.football-data.org/v4/competitions/CL/matches', {
+            headers: {
+                'X-Auth-Token': apiKey // Use the provided API key for authentication
+            }
+        });
+
+        // Check if response status is 200 (OK)
+        return response.status === 200;
+    } catch (error) {
+        console.error('API key test failed:', error.message);
+        return false;
+    }
+}
 
 // Function to ensure directory existence
 function ensureDirectoryExistence(filePath) {
