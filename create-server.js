@@ -658,9 +658,6 @@ app.use((req, res, next) => {
 app.get('/404/404.css', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', '404', '404.html'));
 });
-app.listen(PORT, () => {
-    console.log('Server running on https://soccervortex-github-io.onrender.com/');
-});
 `;
 
 fs.writeFileSync('server.js', serverCode);
