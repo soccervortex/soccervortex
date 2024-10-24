@@ -145,10 +145,6 @@ app.post('/admin/apikey/add-server', isAuthenticated, async (req, res) => {
         keys.push(server);
         fs.writeFileSync(serverFile, JSON.stringify(keys, null, 2));
 
-        // Write to reload.server.js
-        const message = \`// User \${username} added a server version on ${new Date().toISOString()}\n\`;
-        fs.appendFileSync(reloadServerFile, message);
-
         // Push changes to GitHub
         await pushChangesToGitHub(serverFile);
 
