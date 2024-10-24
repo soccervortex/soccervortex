@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     leagueSelect.addEventListener('change', (event) => {
         fetchLiveMatches(event.target.value);
     });
+    setInterval(() => {
+        fetchLiveMatches(leagueSelect.value); // Keep fetching data for the currently selected league
+    }, 10000); // 10000ms = 10 seconds
 });
 
 async function fetchLiveMatches(league) {
