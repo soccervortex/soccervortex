@@ -2,6 +2,7 @@ const fs = require('fs');
 const PORT = 5867;
 
 const serverCode = `
+
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
@@ -68,7 +69,7 @@ app.post('/adminsecurity/login', (req, res) => {
     // Dummy check for username and password, replace with real authentication
     if (username === 'w_rz0115' && password === 'System1153.') {
         req.session.loggedIn = true; // Set loggedIn to true
-        res.redirect('/admin'); // Redirect to the admin page
+        res.redirect('/admin/home'); // Redirect to the admin page
     } else {
         res.send('Invalid credentials. <a href="/adminsecurity/login">Try again</a>');
     }
@@ -89,12 +90,12 @@ app.get('/adminsecurity/logout', (req, res) => {
     });
 });
 
-app.get('/admin/add-server', isAuthenticated, (req, res) => {
-    res.redirect('https://soccervortex-github-io.onrender.com/admin'); // Redirect to your main page
+app.get('/admin/apikey/add-server', isAuthenticated, (req, res) => {
+    res.redirect('https://soccervortex-github-io.onrender.com/admin/home'); // Redirect to your main page
 });
 
 // Add server route
-app.post('/admin/add-server', isAuthenticated, async (req, res) => {
+app.post('/admin/apikey/add-server', isAuthenticated, async (req, res) => {
     const { server } = req.body;
 
     if (!server) {
@@ -116,13 +117,14 @@ app.post('/admin/add-server', isAuthenticated, async (req, res) => {
         fs.writeFileSync(serverFile, JSON.stringify(keys, null, 2));
 
         // Write to reload.server.js
-        const message = \`// A server version was added on \${new Date().toISOString()}\n\`;
+        const message = `// A server version was added on ${new Date().toISOString()}
+`;
         fs.appendFileSync(reloadserverFile, message);
 
         // Push changes to GitHub
         await pushChangesToGitHub(serverFile);
 
-        res.redirect('/admin'); // Success redirect
+        res.redirect('/admin/home'); // Success redirect
     } catch (error) {
         console.error('Error while adding server:', error);
         res.status(500).send('Failed to update the server configuration');
