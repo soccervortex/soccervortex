@@ -1,0 +1,1 @@
+The old server.js files were deleted. Please run the script to get the newest one. If you have any issues, please download the soccervortex3 repository on my GitHub page.
