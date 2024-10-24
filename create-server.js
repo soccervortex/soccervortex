@@ -605,20 +605,36 @@ app.get('/home', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home', 'index.html'));
 });
 
-app.get('/admin', isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'admin', 'admin.html'));
+app.get('/admin/home', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'home', 'admin.html'));
 });
 
-app.get('/admin/admin.css', isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'admin', 'admin.html'));
+app.get('/admin/home/admin.css', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'home', 'admin.html'));
 });
 
-app.get('/admin/logo.png', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'admin', 'logo.png')); // Serve the live-matches.html file
+app.get('/admin/home/logo.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'home', 'logo.png')); // Serve the live-matches.html file
 });
 
-app.get('/admin/logo2.png', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'admin', 'logo2.png')); // Serve the live-matches.html file
+app.get('/admin/home/logo2.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'home', 'logo2.png')); // Serve the live-matches.html file
+});
+
+app.get('/admin/apikey', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'apikey', 'apikey.html'));
+});
+
+app.get('/admin/apikey/apikey.css', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'apikey', 'apikey.html'));
+});
+
+app.get('/apikey/logo.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'apikey', 'home', 'logo.png')); // Serve the live-matches.html file
+});
+
+app.get('/apikey/logo2.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'apikey', 'home', 'logo2.png')); // Serve the live-matches.html file
 });
 
 app.get('/home/logo.png', (req, res) => {
