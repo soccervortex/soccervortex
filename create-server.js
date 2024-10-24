@@ -27,7 +27,7 @@ app.use(express.static('public'));
 
 // Configure session
 app.use(session({
-    secret: 'wesleystephanieomaenmaendavy', // Secure key
+    secret: process.env.SESSION_SECRET, // Use session secret from environment variable
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Use 'false' for local development over HTTP
@@ -50,13 +50,20 @@ function isAuthenticated(req, res, next) {
     }
 }
 
+const users = [
+    { username: process.env.OWNER_USERNAME, password: process.env.OWNER_PASSWORD },
+    { username: process.env.APIKEYBOT_USERMAME, password: process.env.APIKEYBOT_PASSWORD }
+];
+
 // Handle login POST request
 app.post('/admin/login', (req, res) => {
     const { username, password } = req.body;
 
-    // Replace with your authentication logic
-    if (username !== 'w_rz0115' || password !== 'System1153.') {
-        // Redirect to the login page with an error message
+    // Check if the provided username and password match any user in the array
+    const user = users.find(u => u.username === username && u.password === password);
+
+    if (!user) {
+        // If no user found, redirect to login page with an error message
         return res.redirect('/admin/login?error=invalid');
     }
 
@@ -194,7 +201,7 @@ async function pushChangesToGitHub(filePath) {
     const sha = await getFileSha(repoOwner, repoName, relativePath, githubToken);
 
     await axios.put(url, {
-        message: sha ? 'Update server.json' : 'Create server.json',
+        message: sha ? 'Big Update' : 'Update server.json',
         content: Buffer.from(content).toString('base64'),
         sha: sha
     }, {
