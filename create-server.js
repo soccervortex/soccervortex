@@ -7,20 +7,18 @@ const axios = require('axios');
 const cors = require('cors');
 const path = require('path');
 const app = express();
+const PORT = 5867;
 const fs = require('fs');
 const simpleGit = require('simple-git');
 const session = require('express-session');
 const bodyParser = require('body-parser'); // For parsing form data
 const serverFile = path.join(__dirname, 'github', 'old_versions', '1.0.0', '1.0.23', '1.0.7', 'server.json');
 const git = simpleGit();
-const PORT = 5867;
 const reloadserverFile = path.join(__dirname, 'reload.server.js');
 
 // Enable CORS
 app.use(cors());
 app.use(express.json());
-
-// Use body-parser to parse POST request bodies (including JSON and form data)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); // Add this for JSON support
 
@@ -37,7 +35,6 @@ app.use(session({
 
 // Middleware to prevent caching of protected pages
 app.use((req, res, next) => {
-    // Disable caching on all routes (especially for protected pages like /admin)
     res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     res.set('Pragma', 'no-cache');
     res.set('Expires', '0');
@@ -145,11 +142,14 @@ async function pushChangesToGitHub(filePath) {
     const githubToken = process.env.GITHUB_TOKEN; // Your GitHub token
     const repoOwner = 'soccervortex'; // Your GitHub username or organization
     const repoName = 'soccervortex'; // Your GitHub repository name
+    
+    // Adjust the content to include the full directory path
+    const relativePath = path.relative(__dirname, filePath); // Get the relative path from the current directory
     const content = fs.readFileSync(filePath, 'utf-8'); // Read the content of your local server.json file
-    const url = \`https://api.github.com/repos/\${repoOwner}/\${repoName}/contents/\${path.basename(filePath)}\`;
+    const url = \`https://api.github.com/repos/\${repoOwner}/\${repoName}/contents/\${relativePath}\`;
 
     // Get SHA for the file if it exists
-    const sha = await getFileSha(repoOwner, repoName, path.basename(filePath), githubToken);
+    const sha = await getFileSha(repoOwner, repoName, relativePath, githubToken); // Use relative path for SHA lookup
 
     // Make the API request to create/update the file
     await axios.put(url, {
@@ -167,9 +167,9 @@ async function pushChangesToGitHub(filePath) {
 }
 
 // Function to get the SHA of the file (needed for updates)
-async function getFileSha(owner, repo, path, token) {
+async function getFileSha(owner, repo, relativePath, token) {
     try {
-        const url = \`https://api.github.com/repos/\${owner}/\${repo}/contents/\${path}\`;
+        const url = \`https://api.github.com/repos/\${owner}/\${repo}/contents/\${relativePath}\`;
         const response = await axios.get(url, {
             headers: {
                 Authorization: \`token \${token}\`,
