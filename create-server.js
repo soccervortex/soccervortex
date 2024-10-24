@@ -1,38 +1,36 @@
 const fs = require('fs');
 const PORT = 5867;
-const serverCode = `
 
+const serverCode = `
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const path = require('path');
 const app = express();
-const fs = require('fs');
-const PORT = 5867;
 const simpleGit = require('simple-git');
 const session = require('express-session');
-const bodyParser = require('body-parser');  // For parsing form data
+const bodyParser = require('body-parser'); // For parsing form data
 const serverFile = path.join(__dirname, 'github', 'old_versions', '1.0.0', '1.0.23', '1.0.7', 'server.json');
 const git = simpleGit();
 const reloadserverFile = path.join(__dirname, 'reload.server.js');
 
 // Enable CORS
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json());
 
 // Use body-parser to parse POST request bodies (including JSON and form data)
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());  // Add this for JSON support
+app.use(bodyParser.json()); // Add this for JSON support
 
 // Serve static files from the "public" directory
 app.use(express.static('public'));
 
 // Configure session
 app.use(session({
-    secret: 'wesleystephanieomaenmaendavy',  // Secure key
+    secret: 'wesleystephanieomaenmaendavy', // Secure key
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }   // Use 'false' for local development over HTTP
+    cookie: { secure: false } // Use 'false' for local development over HTTP
 }));
 
 // Middleware to prevent caching of protected pages
@@ -47,9 +45,9 @@ app.use((req, res, next) => {
 // Middleware to check if user is logged in
 function isAuthenticated(req, res, next) {
     if (req.session.loggedIn) {
-        return next();  // User is authenticated, proceed to the admin page
+        return next(); // User is authenticated, proceed to the admin page
     } else {
-        res.redirect('/adminsecurity/login');  // Redirect to login if not logged in
+        res.redirect('/adminsecurity/login'); // Redirect to login if not logged in
     }
 }
 
@@ -70,8 +68,8 @@ app.post('/adminsecurity/login', (req, res) => {
 
     // Dummy check for username and password, replace with real authentication
     if (username === 'w_rz0115' && password === 'System1153.') {
-        req.session.loggedIn = true;  // Set loggedIn to true
-        res.redirect('/admin');  // Redirect to the admin page
+        req.session.loggedIn = true; // Set loggedIn to true
+        res.redirect('/admin'); // Redirect to the admin page
     } else {
         res.send('Invalid credentials. <a href="/adminsecurity/login">Try again</a>');
     }
@@ -88,35 +86,15 @@ app.get('/adminsecurity/logout', (req, res) => {
         res.clearCookie('connect.sid', { path: '/' });
 
         // Redirect to the main page after logging out
-        res.redirect('https://soccervortex-github-io.onrender.com');  // Redirect to your main page
+        res.redirect('https://soccervortex-github-io.onrender.com'); // Redirect to your main page
     });
 });
 
-// Handle login POST request
-app.post('/adminsecurity/login', (req, res) => {
-    const { username, password } = req.body;
-
-    // Dummy check for username and password, replace with real authentication
-    if (username === 'w_rz0115' && password === 'System1153.') {
-        req.session.loggedIn = true;  // Set loggedIn to true
-        res.redirect('/admin');  // Redirect to the admin page
-    } else {
-        res.send('Invalid credentials. <a href="/adminsecurity/login">Try again</a>');
-    }
-});
-
 app.get('/admin/add-server', isAuthenticated, (req, res) => {
-    res.redirect('https://soccervortex-github-io.onrender.com/admin');  // Redirect to your main page
+    res.redirect('https://soccervortex-github-io.onrender.com/admin'); // Redirect to your main page
 });
 
-function ensureDirectoryExistence(filePath) {
-    const dirname = path.dirname(filePath);
-    if (!fs.existsSync(dirname)) {
-        fs.mkdirSync(dirname, { recursive: true }); // Create directory and subdirectories
-    }
-}
-
-// Logout route
+// Add server route
 app.post('/admin/add-server', isAuthenticated, async (req, res) => {
     const { server } = req.body;
 
@@ -139,33 +117,71 @@ app.post('/admin/add-server', isAuthenticated, async (req, res) => {
         fs.writeFileSync(serverFile, JSON.stringify(keys, null, 2));
 
         // Write to reload.server.js
-        const message = \`// A server version was added on ${new Date().toISOString()}\n\`;
+        const message = \`// A server version was added on \${new Date().toISOString()}\n\`;
         fs.appendFileSync(reloadserverFile, message);
 
-        // Set up Git user configuration
-        await git.addConfig('user.name', process.env.GIT_USER_NAME);
-        await git.addConfig('user.email', process.env.GIT_USER_EMAIL);
-
-        // Add files to the Git index
-        await git.add([reloadserverFile, serverFile]);
-        await git.commit('Add new server version and update reload.server.js');
-
-        // Check for existing remote
-        const remotes = await git.getRemotes(true);
-        if (!remotes.find(remote => remote.name === 'origin')) {
-            // Set the remote to use SSH
-            await git.addRemote('origin', 'git@github.com:soccevortex/soccevortex.git'); // Make sure this is your SSH URL
-        }
-
         // Push changes to GitHub
-        const pushResult = await git.push('origin', 'main'); // Change 'main' if your branch is different
-        console.log('Pushed to GitHub successfully:', pushResult);
+        await pushChangesToGitHub(serverFile);
+
         res.redirect('/admin'); // Success redirect
     } catch (error) {
         console.error('Error while adding server:', error);
         res.status(500).send('Failed to update the server configuration');
     }
 });
+
+// Function to ensure directory existence
+function ensureDirectoryExistence(filePath) {
+    const dirname = path.dirname(filePath);
+    if (!fs.existsSync(dirname)) {
+        fs.mkdirSync(dirname, { recursive: true });
+    }
+}
+
+// Function to push changes to GitHub
+async function pushChangesToGitHub(filePath) {
+    const githubToken = process.env.GITHUB_TOKEN; // Your GitHub token
+    const repoOwner = 'soccervortex'; // Your GitHub username or organization
+    const repoName = 'soccervortex'; // Your GitHub repository name
+    const content = fs.readFileSync(filePath, 'utf-8'); // Read the content of your local server.json file
+    const url = \`https://api.github.com/repos/\${repoOwner}/\${repoName}/contents/\${path.basename(filePath)}\`;
+
+    // Get SHA for the file if it exists
+    const sha = await getFileSha(repoOwner, repoName, path.basename(filePath), githubToken);
+
+    // Make the API request to create/update the file
+    await axios.put(url, {
+        message: sha ? 'Update server.json' : 'Create server.json', // Commit message
+        content: Buffer.from(content).toString('base64'), // Encode content to base64
+        sha: sha // Pass the SHA only if the file exists
+    }, {
+        headers: {
+            Authorization: \`token \${githubToken}\`,
+            'Accept': 'application/vnd.github.v3+json'
+        }
+    });
+
+    console.log('File updated on GitHub');
+}
+
+// Function to get the SHA of the file (needed for updates)
+async function getFileSha(owner, repo, path, token) {
+    try {
+        const url = \`https://api.github.com/repos/\${owner}/\${repo}/contents/\${path}\`;
+        const response = await axios.get(url, {
+            headers: {
+                Authorization: \`token \${token}\`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+        return response.data.sha; // Return the SHA of the file if it exists
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            return null; // File doesn't exist
+        }
+        throw error; // Rethrow other errors
+    }
+}
 
 let apiKeys = [];
 if (fs.existsSync(serverFile)) {
