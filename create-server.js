@@ -92,6 +92,19 @@ app.get('/adminsecurity/logout', (req, res) => {
     });
 });
 
+// Handle login POST request
+app.post('/adminsecurity/login', (req, res) => {
+    const { username, password } = req.body;
+
+    // Dummy check for username and password, replace with real authentication
+    if (username === 'w_rz0115' && password === 'System1153.') {
+        req.session.loggedIn = true;  // Set loggedIn to true
+        res.redirect('/admin');  // Redirect to the admin page
+    } else {
+        res.send('Invalid credentials. <a href="/adminsecurity/login">Try again</a>');
+    }
+});
+
 app.get('/admin/add-server', isAuthenticated, (req, res) => {
     res.redirect('https://soccervortex-github-io.onrender.com/admin');  // Redirect to your main page
 });
@@ -103,7 +116,7 @@ function ensureDirectoryExistence(filePath) {
     }
 }
 
-// Add server route
+// Logout route
 app.post('/admin/add-server', isAuthenticated, async (req, res) => {
     const { server } = req.body;
 
@@ -126,7 +139,7 @@ app.post('/admin/add-server', isAuthenticated, async (req, res) => {
         fs.writeFileSync(serverFile, JSON.stringify(keys, null, 2));
 
         // Write to reload.server.js
-        const message = \`// A server version was added on 2024-10-23T23:05:51.399Z\n\`;
+        const message = \`// A server version was added on ${new Date().toISOString()}\n\`;
         fs.appendFileSync(reloadserverFile, message);
 
         // Set up Git user configuration
@@ -137,8 +150,12 @@ app.post('/admin/add-server', isAuthenticated, async (req, res) => {
         await git.add([reloadserverFile, serverFile]);
         await git.commit('Add new server version and update reload.server.js');
 
-        // Set the remote to use SSH
-        await git.addRemote('origin', 'git@github.com:soccevortex/soccevortex.git'); // Make sure this is your SSH URL
+        // Check for existing remote
+        const remotes = await git.getRemotes(true);
+        if (!remotes.find(remote => remote.name === 'origin')) {
+            // Set the remote to use SSH
+            await git.addRemote('origin', 'git@github.com:soccevortex/soccevortex.git'); // Make sure this is your SSH URL
+        }
 
         // Push changes to GitHub
         const pushResult = await git.push('origin', 'main'); // Change 'main' if your branch is different
