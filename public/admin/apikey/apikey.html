@@ -34,6 +34,30 @@
             <div class="thumbnail-container">
                 <img class="thumbnail" id="thumbnail" src="logo2.png" alt="Soccer Vortex">
             </div>
+        </section>
+
+        <div id="error-message">
+            <script>
+                const urlParams = new URLSearchParams(window.location.search);
+                const error = urlParams.get('error');
+                if (error === 'required') {
+                    document.write("<p style='color: red;'>API Key is required. Please try again.</p>");
+                }
+                if (error === 'length') {
+                    document.write("<p style='color: red;'>API Key must be exactly 32 characters long. Please try again.</p>");
+                }
+                if (error === 'deployment') {
+                    document.write("<p style='color: red;'>A deployment is currently in progress. Please wait until it is completed before adding a new API key.</p>");
+                }
+                if (error === 'already') {
+                    document.write("<p style='color: red;'>This API Key has already been added. Please try a new API Key.</p>");
+                }
+                if (error === 'failed') {
+                    document.write("<p style='color: red;'>Failed to update the server configuration. Please try again.</p>");
+                }
+            </script>
+        </div>
+
         <section id="apikey" class="apikey">
             <h1>Add API Key</h1>
             <form id="apiKeyForm" method="POST" action="/admin/apikey/add-server">

@@ -85,14 +85,32 @@ app.get('/admin/apikey/add-server', isAuthenticated, (req, res) => {
 });
 
 // Add server route
+let isDeploying = false; // Flag to track deployment status
+
 app.post('/admin/apikey/add-server', isAuthenticated, async (req, res) => {
-    const { server } = req.body;
+    const { server } = req.body; // Now the server variable is defined in this scope
 
     if (!server) {
-        return res.status(400).send('API Key is required');
+        return res.redirect('/admin/apikey?error=required');
+    }
+
+    // Log the API key
+    console.log(\`Submitted API Key: \${server}\`); // Use backticks for interpolation
+
+    // Check for API key length
+    if (server.length !== 32) {
+        return res.redirect('/admin/apikey?error=length');
+    }
+
+    // Check if a deployment is in progress
+    if (isDeploying) {
+        return res.redirect('/admin/apikey?error=deployment');
     }
 
     try {
+        // Mark deployment as in progress
+        isDeploying = true;
+
         // Ensure directory exists before writing
         ensureDirectoryExistence(serverFile);
 
@@ -102,21 +120,33 @@ app.post('/admin/apikey/add-server', isAuthenticated, async (req, res) => {
             keys = JSON.parse(fs.readFileSync(serverFile));
         }
 
+        // Check if the API key already exists in the list
+        if (keys.includes(server)) {
+            isDeploying = false; // Reset flag on error
+            return res.redirect('/admin/apikey?error=already');
+        }
+
         // Add new API key
         keys.push(server);
         fs.writeFileSync(serverFile, JSON.stringify(keys, null, 2));
 
         // Write to reload.server.js
-        const message = \`// A server version was added on ${new Date().toISOString()}\`;
+        const message = \`// A server version was added on \${new Date().toISOString()}\n\`;
         fs.appendFileSync(reloadserverFile, message);
 
         // Push changes to GitHub
         await pushChangesToGitHub(serverFile);
 
+        // After successful push, trigger Render deployment
+        await triggerRenderDeployment(); // Implement this function below
+
+        // Deployment finished successfully
+        isDeploying = false; // Reset flag after deployment
         res.redirect('/admin/home'); // Success redirect
     } catch (error) {
         console.error('Error while adding server:', error);
-        res.status(500).send('Failed to update the server configuration');
+        isDeploying = false; // Reset flag on error
+        return res.redirect('/admin/apikey?error=failed');
     }
 });
 
@@ -133,21 +163,17 @@ async function pushChangesToGitHub(filePath) {
     const githubToken = process.env.GITHUB_TOKEN; // Your GitHub token
     const repoOwner = 'soccervortex'; // Your GitHub username or organization
     const repoName = 'soccervortex'; // Your GitHub repository name
-    
-    // Adjust the content to include the full directory path
-    const relativePath = path.relative(__dirname, filePath); // Get the relative path from the current directory
-    const content = fs.readFileSync(filePath, 'utf-8'); // Read the content of your local server.json file
+
+    const relativePath = path.relative(__dirname, filePath);
+    const content = fs.readFileSync(filePath, 'utf-8');
     const url = \`https://api.github.com/repos/\${repoOwner}/\${repoName}/contents/\${relativePath}\`;
 
+    const sha = await getFileSha(repoOwner, repoName, relativePath, githubToken);
 
-    // Get SHA for the file if it exists
-    const sha = await getFileSha(repoOwner, repoName, relativePath, githubToken); // Use relative path for SHA lookup
-
-    // Make the API request to create/update the file
     await axios.put(url, {
-        message: sha ? 'Update server.json' : 'Create server.json', // Commit message
-        content: Buffer.from(content).toString('base64'), // Encode content to base64
-        sha: sha // Pass the SHA only if the file exists
+        message: sha ? 'Update server.json' : 'Create server.json',
+        content: Buffer.from(content).toString('base64'),
+        sha: sha
     }, {
         headers: {
             Authorization: \`token \${githubToken}\`,
@@ -158,7 +184,7 @@ async function pushChangesToGitHub(filePath) {
     console.log('File updated on GitHub');
 }
 
-// Function to get the SHA of the file (needed for updates)
+// Function to get the SHA of the file
 async function getFileSha(owner, repo, relativePath, token) {
     try {
         const url = \`https://api.github.com/repos/\${owner}/\${repo}/contents/\${relativePath}\`;
@@ -168,12 +194,33 @@ async function getFileSha(owner, repo, relativePath, token) {
                 'Accept': 'application/vnd.github.v3+json'
             }
         });
-        return response.data.sha; // Return the SHA of the file if it exists
+        return response.data.sha;
     } catch (error) {
         if (error.response && error.response.status === 404) {
-            return null; // File doesn't exist
+            return null;
         }
-        throw error; // Rethrow other errors
+        throw error;
+    }
+}
+
+// Function to trigger a Render deployment
+async function triggerRenderDeployment() {
+    const renderServiceId = process.env.RENDER_SERVICE_ID; // Your Render service ID
+    const renderApiKey = process.env.RENDER_API_KEY; // Your Render API key
+
+    const url = \`https://api.render.com/v1/services/\${renderServiceId}/deploys\`;
+
+    const response = await axios.post(url, {}, {
+        headers: {
+            Authorization: \`Bearer \${renderApiKey}\`,
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (response.status === 201) {
+        console.log('Render deployment triggered successfully.');
+    } else {
+        throw new Error('Failed to trigger Render deployment.');
     }
 }
 

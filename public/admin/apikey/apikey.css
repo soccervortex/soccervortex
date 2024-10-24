@@ -389,3 +389,9 @@ body {
 .apikey button:hover {
     background-color: #4cae4c; /* Darker green on hover */
 }
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-top: 10px; /* Space above error message */
+}
