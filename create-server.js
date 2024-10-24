@@ -69,6 +69,7 @@ app.post('/admin/login', (req, res) => {
 
     // Successful login logic here
     req.session.loggedIn = true; // Set loggedIn to true
+    req.session.username = username; // Save username in session
     res.redirect('/admin/home'); // Redirect to the admin page
 });
 
@@ -96,13 +97,14 @@ let isDeploying = false; // Flag to track deployment status
 
 app.post('/admin/apikey/add-server', isAuthenticated, async (req, res) => {
     const { server } = req.body; // Now the server variable is defined in this scope
+    const username = req.session.username; // Capture the username from session
 
     if (!server) {
         return res.redirect('/admin/apikey?error=required');
     }
 
     // Log the API key
-    console.log(\`Submitted API Key: \${server}\`); // Use backticks for interpolation
+    console.log(\`User \${username} submitted API Key: \${server}\`); // Log who submitted the key
 
     // Check for API key length
     if (server.length !== 32) {
@@ -144,8 +146,8 @@ app.post('/admin/apikey/add-server', isAuthenticated, async (req, res) => {
         fs.writeFileSync(serverFile, JSON.stringify(keys, null, 2));
 
         // Write to reload.server.js
-        const message = \`// A server version was added on \${new Date().toISOString()}\n\`;
-        fs.appendFileSync(reloadserverFile, message);
+        const message = \`// User ${username} added a server version on ${new Date().toISOString()}\n\`;
+        fs.appendFileSync(reloadServerFile, message);
 
         // Push changes to GitHub
         await pushChangesToGitHub(serverFile);
@@ -239,6 +241,7 @@ async function triggerRenderDeployment() {
     const renderApiKey = process.env.RENDER_API_KEY; // Your Render API key
 
     const url = \`https://api.render.com/v1/services/\${renderServiceId}/deploys\`;
+
 
     const response = await axios.post(url, {}, {
         headers: {
