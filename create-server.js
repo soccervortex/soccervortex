@@ -13,6 +13,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser'); // For parsing form data
 const serverFile = path.join(__dirname, 'github', 'old_versions', '1.0.0', '1.0.23', '1.0.7', 'server.json');
 const git = simpleGit();
+const PORT = 5867;
 const reloadserverFile = path.join(__dirname, 'reload.server.js');
 
 // Enable CORS
@@ -657,6 +658,10 @@ app.use((req, res, next) => {
 
 app.get('/404/404.css', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', '404', '404.html'));
+});
+
+app.listen(PORT, () => {
+    console.log('Server running on https://soccervortex-github-io.onrender.com/');
 });
 `;
 
