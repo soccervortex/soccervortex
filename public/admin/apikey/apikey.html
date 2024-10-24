@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/admin/admin.css">
+    <link rel="stylesheet" href="/admin/apikey/apikey.css">
 </head>
 <body>
     <nav class="navbar">
@@ -16,7 +16,8 @@
                 <img class="title" id="title" src="logo.png" alt="Logo">
             </a>
             <ul class="navbar-menu">
-                <li><a href="https://soccervortex-github-io.onrender.com/admin/">Admin</a></li>
+                <li><a href="https://soccervortex-github-io.onrender.com/admin/home">Home</a></li>
+                <li><a href="https://soccervortex-github-io.onrender.com/admin/apikey">Api Key</a></li>
                 <li><a href="https://soccervortex-github-io.onrender.com/adminsecurity/logout">Logout</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropbtn">More</a>
@@ -33,43 +34,14 @@
             <div class="thumbnail-container">
                 <img class="thumbnail" id="thumbnail" src="logo2.png" alt="Soccer Vortex">
             </div>
-        <section id="about" class="about">
-            <h1>About Us</h1>
-            <p>We are dedicated to providing soccer enthusiasts with the latest information about their favorite leagues / teams. Whether you're looking for details about club positions, match schedules, or live matches, we've got you covered.</p>
-        </section>
-
-        <section id="add-api-key" class="api-key">
+        <section id="apikey" class="apikey">
             <h1>Add API Key</h1>
             <form id="apiKeyForm" method="POST" action="/admin/add-server">
                 <input type="text" name="server" placeholder="Enter new API Key" required>
                 <button type="submit">Add API Key</button>
             </form>
         </section>        
-
-        <section id="services" class="services">
-            <h1>Our Services</h1>
-            <ul>
-                <p>Real-time Team Updates: Get the latest news and updates on your favorite leagues / teams.</p>
-                <p>Match Schedules: Stay informed about upcoming matches and events.</p>
-                <p>Team Statistics: Access detailed statistics for teams across various leagues.</p>
-                <p>Team Finder: View teams in all popular leagues.</p>
-                <!-- Add more services as needed -->
-            </ul>
-        </section>
-
-        <section id="contact" class="contact">
-            <h1>Contact Us</h1>
-            <p>If you have any questions or feedback, feel free to reach out to our support email!</p>
-            <p>Please report bugs / updates immediately!</p>
-            <p><a class="mail" id="mail" href="mailto:help.soccervortex@gmail.com" target="_blank">help.soccervortex@gmail.com</a></p>
-        </section>
-
-        <section id="viewer-count" class="viewer">
-            <h1>Viewer Counter</h1>
-            <script type="text/javascript" src="//counter.websiteout.com/js/7/0/0/1"></script>
-        </section>
     </div>
-    
 <footer>
     <div class="status-container">
         <button class="status"><a class="status-text" id="status-text" href="https://stats.uptimerobot.com/pr8RKjyq3f" target="_blank">Status Page</a></button>
