@@ -2,7 +2,6 @@ const fs = require('fs');
 const PORT = 5867;
 
 const serverCode = `
-
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
@@ -47,36 +46,27 @@ function isAuthenticated(req, res, next) {
     if (req.session.loggedIn) {
         return next(); // User is authenticated, proceed to the admin page
     } else {
-        res.redirect('/adminsecurity/login'); // Redirect to login if not logged in
+        res.redirect('/admin/login'); // Redirect to login if not logged in
     }
 }
 
-// Login route (renders login form)
-app.get('/adminsecurity/login', (req, res) => {
-    res.send(\`
-        <form method="POST" action="/adminsecurity/login">
-            <input type="text" name="username" placeholder="Username" required/>
-            <input type="password" name="password" placeholder="Password" required/>
-            <button type="submit">Login</button>
-        </form>
-    \`);
-});
-
 // Handle login POST request
-app.post('/adminsecurity/login', (req, res) => {
+app.post('/admin/login', (req, res) => {
     const { username, password } = req.body;
 
-    // Dummy check for username and password, replace with real authentication
-    if (username === 'w_rz0115' && password === 'System1153.') {
-        req.session.loggedIn = true; // Set loggedIn to true
-        res.redirect('/admin/home'); // Redirect to the admin page
-    } else {
-        res.send('Invalid credentials. <a href="/adminsecurity/login">Try again</a>');
+    // Replace with your authentication logic
+    if (username !== 'w_rz0115' || password !== 'System1153.') {
+        // Redirect to the login page with an error message
+        return res.redirect('/admin/login?error=invalid');
     }
+
+    // Successful login logic here
+    req.session.loggedIn = true; // Set loggedIn to true
+    res.redirect('/admin/home'); // Redirect to the admin page
 });
 
 // Logout route
-app.get('/adminsecurity/logout', (req, res) => {
+app.get('/admin/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
             return res.send('Error logging out.');
@@ -148,6 +138,7 @@ async function pushChangesToGitHub(filePath) {
     const relativePath = path.relative(__dirname, filePath); // Get the relative path from the current directory
     const content = fs.readFileSync(filePath, 'utf-8'); // Read the content of your local server.json file
     const url = \`https://api.github.com/repos/\${repoOwner}/\${repoName}/contents/\${relativePath}\`;
+
 
     // Get SHA for the file if it exists
     const sha = await getFileSha(repoOwner, repoName, relativePath, githubToken); // Use relative path for SHA lookup
@@ -510,6 +501,10 @@ app.get('/live/logo.png', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'live', 'logo.png')); // Serve the live-matches.html file
 });
 
+app.get('/admin/', (req, res) => {
+    res.redirect('https://soccervortex-github-io.onrender.com/admin/home')
+});
+
 app.get('/live/live-script.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'live', 'live-scirpt.js')); // Serve the live-matches.html file
 });
@@ -629,12 +624,24 @@ app.get('/admin/apikey/apikey.css', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin', 'apikey', 'apikey.html'));
 });
 
-app.get('/apikey/logo.png', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'apikey', 'home', 'logo.png')); // Serve the live-matches.html file
+app.get('/admin/apikey/logo.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'apikey', 'logo.png')); // Serve the live-matches.html file
 });
 
-app.get('/apikey/logo2.png', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'apikey', 'home', 'logo2.png')); // Serve the live-matches.html file
+app.get('/admin/apikey/logo2.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'apikey', 'logo2.png')); // Serve the live-matches.html file
+});
+
+app.get('/admin/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'login', 'login.html'));
+});
+
+app.get('/admin/login/login.css', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'login', 'login.html'));
+});
+
+app.get('/admin/login/login.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'login', 'login.html'));
 });
 
 app.get('/home/logo.png', (req, res) => {
