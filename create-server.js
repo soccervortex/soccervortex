@@ -27,18 +27,21 @@ app.use(bodyParser.json());
 
 // Middleware to log and check for blocked IPs
 const publicIpRegex = /^(?!127\.|10\.|192\.168|172\.(1[6-9]|2[0-9]|3[0-1])\.).*$/;
+const seenIps = new Set(); // Track seen IPs to avoid duplicate logs per session
 
 app.use((req, res, next) => {
-    // Get client IP from request headers or socket
+    // Obtain client IP from headers or socket
     const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress;
     const formattedIp = clientIp.includes('::') ? clientIp.replace(/^.*:/, '') : clientIp;
 
-    // Filter for public IPs only
-    if (publicIpRegex.test(formattedIp)) {
-        // Optionally filter for common user-agents to exclude bots
+    // Check if the IP is public and not already logged for this session
+    if (publicIpRegex.test(formattedIp) && !seenIps.has(formattedIp)) {
         const userAgent = req.headers['user-agent'] || '';
-        if (!/bot|spider|crawl|postman|python/i.test(userAgent)) {
-            console.log(\`Request from public user IP: \${formattedIp}\`);
+
+        // Only log IPs that look like real browsers and human visitors
+        if (/Mozilla|Chrome|Safari|Edge|Firefox/i.test(userAgent) && !/bot|crawl|spider/i.test(userAgent)) {
+            console.log(\`Request from actual user IP: \${formattedIp}\`);
+            seenIps.add(formattedIp); // Track this IP as seen to avoid logging it again in the same session
         }
     }
 
