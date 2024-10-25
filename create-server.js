@@ -11,26 +11,40 @@ const PORT = 5867;
 const fs = require('fs');
 const simpleGit = require('simple-git');
 const session = require('express-session');
-const bodyParser = require('body-parser'); // For parsing form data
+const bodyParser = require('body-parser');
 const serverFile = path.join(__dirname, 'github', 'old_versions', '1.0.0', '1.0.23', '1.0.7', 'server.json');
 const git = simpleGit();
 const reloadserverFile = path.join(__dirname, 'reload.server.js');
+
+// Define blocked IPs array
+const blockedIps = ["", ""]; // Add IPs you want to block here
 
 // Enable CORS
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json()); // Add this for JSON support
+app.use(bodyParser.json());
+
+// Middleware to log and check for blocked IPs
+app.use((req, res, next) => {
+    const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress; // Get client IP address
+    console.log(\`Request from IP: \${clientIp}\`);
+
+    if (blockedIps.includes(clientIp)) {
+        return res.status(403).send("Your IP is blocked from accessing this server.");
+    }
+    next();
+});
 
 // Serve static files from the "public" directory
 app.use(express.static('public'));
 
 // Configure session
 app.use(session({
-    secret: process.env.SESSION_SECRET, // Use session secret from environment variable
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Use 'false' for local development over HTTP
+    cookie: { secure: false }
 }));
 
 // Middleware to prevent caching of protected pages
@@ -44,9 +58,9 @@ app.use((req, res, next) => {
 // Middleware to check if user is logged in
 function isAuthenticated(req, res, next) {
     if (req.session.loggedIn) {
-        return next(); // User is authenticated, proceed to the admin page
+        return next();
     } else {
-        res.redirect('/admin/login'); // Redirect to login if not logged in
+        res.redirect('/admin/login');
     }
 }
 
