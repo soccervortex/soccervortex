@@ -16,32 +16,43 @@ const serverFile = path.join(__dirname, 'github', 'old_versions', '1.0.0', '1.0.
 const git = simpleGit();
 const reloadserverFile = path.join(__dirname, 'reload.server.js');
 
-// Define blocked IPs array
-const blockedIps = ["", ""]; // Add IPs you want to block here
+const blockedIps = ["185.182.193.115"]; // Add more IPs as needed
 
-// Enable CORS
+// Enable CORS and body parsers
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Middleware to log and check for blocked IPs
-const publicIpRegex = /^(?!127\.|10\.|192\.168|172\.(1[6-9]|2[0-9]|3[0-1])\.).*$/;
-const seenIps = new Set(); // Track seen IPs to avoid duplicate logs per session
-
+// Middleware to check for blocked IPs
 app.use((req, res, next) => {
     // Obtain client IP from headers or socket
     const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress;
     const formattedIp = clientIp.includes('::') ? clientIp.replace(/^.*:/, '') : clientIp;
 
-    // Check if the IP is public and not already logged for this session
+    // Block request if IP is in the blocked list
+    if (blockedIps.includes(formattedIp)) {
+        console.log(\`Blocked request from IP: \${formattedIp}\`);
+        return res.status(403).send('Access Forbidden');
+    }
+
+    next(); // Continue to the next middleware if IP is not blocked
+});
+
+// Middleware to log and check for actual users
+const publicIpRegex = /^(?!127\.|10\.|192\.168|172\.(1[6-9]|2[0-9]|3[0-1])\.).*$/;
+const seenIps = new Set();
+
+app.use((req, res, next) => {
+    const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress;
+    const formattedIp = clientIp.includes('::') ? clientIp.replace(/^.*:/, '') : clientIp;
+
     if (publicIpRegex.test(formattedIp) && !seenIps.has(formattedIp)) {
         const userAgent = req.headers['user-agent'] || '';
 
-        // Only log IPs that look like real browsers and human visitors
         if (/Mozilla|Chrome|Safari|Edge|Firefox/i.test(userAgent) && !/bot|crawl|spider/i.test(userAgent)) {
             console.log(\`Request from actual user IP: \${formattedIp}\`);
-            seenIps.add(formattedIp); // Track this IP as seen to avoid logging it again in the same session
+            seenIps.add(formattedIp);
         }
     }
 
