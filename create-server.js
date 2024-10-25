@@ -16,7 +16,7 @@ const serverFile = path.join(__dirname, 'github', 'old_versions', '1.0.0', '1.0.
 const git = simpleGit();
 const reloadserverFile = path.join(__dirname, 'reload.server.js');
 
-const blockedIps = ["185.182.193.115, 162.158.87.104, 10.217.232.125"]; // Add more IPs as needed
+const blockedIps = ["185.182.193.115, 162.158.87.104, 10.217.232.125, 109.133.67.187"]; // Add more IPs as needed
 
 // Enable CORS and body parsers
 app.use(cors());
